@@ -34,6 +34,7 @@ public class Bot{
 
     public Bot(String token, boolean updating){
         this.token = token;
+        Bot that  = this;
         this.updater = new Thread(() -> {
             while(true){
                 try{
@@ -71,11 +72,11 @@ public class Bot{
                                     if(cmd.contains("@")){
                                         cmd = kk[0].substring(0, kk[0].indexOf("@"));
                                     }
-                                    Server.getInstance().getPluginManager().callEvent(new TelegramCommandReceiveEvent(txt, cmd, args));
+                                    Server.getInstance().getPluginManager().callEvent(new TelegramCommandReceiveEvent(that, txt, cmd, args));
                                     return;
                                 }
                             }
-                            Server.getInstance().getPluginManager().callEvent(new TelegramMessageReceiveEvent(message));
+                            Server.getInstance().getPluginManager().callEvent(new TelegramMessageReceiveEvent(that, message));
                         }
                     });
 
