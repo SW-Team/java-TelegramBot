@@ -1,16 +1,16 @@
 package milk.telegram.event;
 
 import cn.nukkit.event.Event;
-import milk.telegram.bot.Bot;
+import milk.telegram.bot.TelegramBot;
 import milk.telegram.media.message.Message;
 
 public class TelegramMessageReceiveEvent extends Event{
 
-    private final Bot bot;
+    private final TelegramBot telegramBot;
     private final Message message;
 
-    public TelegramMessageReceiveEvent(Bot bot, Message msg){
-        this.bot = bot;
+    public TelegramMessageReceiveEvent(TelegramBot telegramBot, Message msg){
+        this.telegramBot = telegramBot;
         this.message = msg;
     }
 
@@ -18,8 +18,8 @@ public class TelegramMessageReceiveEvent extends Event{
         return this.message;
     }
 
-    public Bot getBot(){
-        return this.bot;
+    public TelegramBot getTelegramBot(){
+        return this.telegramBot;
     }
 
 }

@@ -1,20 +1,20 @@
 package milk.telegram.event;
 
 import cn.nukkit.event.Event;
-import milk.telegram.bot.Bot;
+import milk.telegram.bot.TelegramBot;
 import milk.telegram.media.message.TextMessage;
 
 public class TelegramCommandReceiveEvent extends Event{
 
     private final TextMessage message;
 
-    private final Bot bot;
+    private final TelegramBot telegramBot;
 
     private final String cmd;
     private final String[] args;
 
-    public TelegramCommandReceiveEvent(Bot bot, TextMessage txt, String cmd, String[] args){
-        this.bot = bot;
+    public TelegramCommandReceiveEvent(TelegramBot telegramBot, TextMessage txt, String cmd, String[] args){
+        this.telegramBot = telegramBot;
         this.message = txt;
         this.cmd = cmd;
         this.args = args;
@@ -32,8 +32,8 @@ public class TelegramCommandReceiveEvent extends Event{
         return this.message;
     }
 
-    public Bot getBot(){
-        return this.bot;
+    public TelegramBot getTelegramBot(){
+        return this.telegramBot;
     }
 
 }

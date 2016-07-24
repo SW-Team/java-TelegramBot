@@ -19,7 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
-public class Bot{
+public class TelegramBot{
 
     private final String token;
 
@@ -28,9 +28,9 @@ public class Bot{
 
     private final Thread updater;
 
-    public Bot(String token){
+    public TelegramBot(String token){
         this.token = token;
-        Bot that  = this;
+        TelegramBot that  = this;
         this.updater = new Thread(() -> {
             while(true){
                 try{
