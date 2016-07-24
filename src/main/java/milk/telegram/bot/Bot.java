@@ -29,10 +29,6 @@ public class Bot{
     private final Thread updater;
 
     public Bot(String token){
-        this(token, true);
-    }
-
-    public Bot(String token, boolean updating){
         this.token = token;
         Bot that  = this;
         this.updater = new Thread(() -> {
@@ -84,10 +80,6 @@ public class Bot{
                 }catch(Exception e){}
             }
         });
-
-        if(updating){
-            this.run();
-        }
     }
 
     public void run(){
