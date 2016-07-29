@@ -1,4 +1,4 @@
-name: WorldEditor
+name: TelegramManager
 main: milk.telegram.TelegramManager
 version: "1.0"
 api: ["1.0.0"]
