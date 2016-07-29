@@ -24,9 +24,16 @@ public class TelegramBot{
     private final String token;
 
     private int lastId = 0;
+    private int timeout = 1000;
+
     private boolean running = true;
 
     private final Thread updater;
+
+    public TelegramBot(String token, int time){
+        this(token);
+        this.timeout = time;
+    }
 
     public TelegramBot(String token){
         if(token.length() != 45){
@@ -104,12 +111,16 @@ public class TelegramBot{
         return this.running;
     }
 
+    public void setTimeout(int time){
+        this.timeout = time;
+    }
+
     private JSONObject updateResponse(String key, JSONObject object){
         try{
             URL url = new URL(String.format("https://api.telegram.org/bot%s/%s", this.token, key));
             URLConnection connection = url.openConnection();
             connection.setDoInput(true);
-            connection.setConnectTimeout(500);
+            connection.setConnectTimeout(this.timeout);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
             if(object.length() > 0){
