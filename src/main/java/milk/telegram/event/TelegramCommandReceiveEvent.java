@@ -1,10 +1,13 @@
 package milk.telegram.event;
 
 import cn.nukkit.event.Event;
+import cn.nukkit.event.HandlerList;
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.media.message.TextMessage;
 
 public class TelegramCommandReceiveEvent extends Event{
+
+    private static final HandlerList handlers = new HandlerList();
 
     private final TextMessage message;
 
@@ -12,6 +15,10 @@ public class TelegramCommandReceiveEvent extends Event{
 
     private final String cmd;
     private final String[] args;
+
+    public static HandlerList getHandlers(){
+        return handlers;
+    }
 
     public TelegramCommandReceiveEvent(TelegramBot telegramBot, TextMessage txt, String cmd, String[] args){
         this.telegramBot = telegramBot;

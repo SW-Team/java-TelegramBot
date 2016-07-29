@@ -29,6 +29,13 @@ public class TelegramBot{
     private final Thread updater;
 
     public TelegramBot(String token){
+        if(token.length() != 45){
+            this.token = "";
+            this.updater = null;
+            this.running = false;
+            return;
+        }
+
         this.token = token;
         TelegramBot that  = this;
         this.updater = new Thread(() -> {
