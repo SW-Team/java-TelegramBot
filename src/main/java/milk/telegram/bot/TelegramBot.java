@@ -100,7 +100,7 @@ public class TelegramBot{
         try{
             this.running = true;
             this.updater.start();
-        }catch(IllegalThreadStateException e){}
+        }catch(Exception e){}
     }
 
     public void stop(){
