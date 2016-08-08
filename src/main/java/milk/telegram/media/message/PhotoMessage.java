@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class PhotoMessage extends Message implements Textable{
 
-    private String text;
+    private String caption;
     private ArrayList<PhotoSize> photo;
 
     public PhotoMessage(JSONObject object){
         super(object);
 
-        this.text = object.optString("text", null);
+        this.caption = object.optString("caption", null);
         this.photo = new ArrayList<>();
         object.getJSONArray("photo").forEach(obj -> {
             if(obj instanceof JSONObject) this.photo.add(new PhotoSize((JSONObject) obj));
@@ -22,7 +22,7 @@ public class PhotoMessage extends Message implements Textable{
     }
 
     public String getText(){
-        return this.text;
+        return this.caption;
     }
 
     public ArrayList<PhotoSize> getPhotoList(){
