@@ -1,11 +1,11 @@
 package milk.telegram.media.message;
 
 import milk.telegram.media.chat.Chat;
-import milk.telegram.media.interfaces.IntegerId;
+import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.user.User;
 import org.json.JSONObject;
 
-public class Message implements IntegerId{
+public class Message implements Idable<Integer>{
 
     private int date;
     private int message_id;
@@ -13,10 +13,10 @@ public class Message implements IntegerId{
     private User from;
     private Chat chat;
 
-    public Message(JSONObject object){
+    protected Message(JSONObject object){
         this.message_id = object.getInt("message_id");
         this.date = object.getInt("date");
-        this.from = new User(object.getJSONObject("from"));
+        this.from = User.create(object.getJSONObject("from"));
         this.chat = Chat.create(object.getJSONObject("chat"));
     }
 
@@ -49,7 +49,7 @@ public class Message implements IntegerId{
         return new Message(object);
     }
 
-    public int getId(){
+    public Integer getId(){
         return this.message_id;
     }
 

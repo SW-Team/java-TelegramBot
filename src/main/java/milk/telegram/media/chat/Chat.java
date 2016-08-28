@@ -1,34 +1,34 @@
 package milk.telegram.media.chat;
 
-import milk.telegram.media.interfaces.IntegerId;
 import org.json.JSONObject;
+import milk.telegram.media.interfaces.Idable;
 
-public abstract class Chat implements IntegerId{
+public abstract class Chat implements Idable<Integer>{
 
     private int id;
 
     private String type;
 
-    public Chat(JSONObject object){
+    protected Chat(JSONObject object){
         this.id = object.getInt("id");
         this.type = object.getString("type");
     }
 
     public static Chat create(JSONObject object){
         switch(object.getString("type")){
-            case "private":
-                return new PrivateChat(object);
             case "group":
                 return new Group(object);
             case "channel":
                 return new Channel(object);
             case "supergroup":
                 return new SuperGroup(object);
+            case "private":
+                return new PrivateChat(object);
         }
         return null;
     }
 
-    public int getId(){
+    public Integer getId(){
         return this.id;
     }
 

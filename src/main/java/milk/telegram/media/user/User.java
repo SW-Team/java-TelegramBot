@@ -1,10 +1,10 @@
 package milk.telegram.media.user;
 
-import milk.telegram.media.interfaces.IntegerId;
+import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.interfaces.Usernamed;
 import org.json.JSONObject;
 
-public class User implements IntegerId, Usernamed{
+public class User implements Idable<Integer>, Usernamed{
 
     private int id;
 
@@ -12,14 +12,21 @@ public class User implements IntegerId, Usernamed{
     private String first;
     private String username;
 
-    public User(JSONObject object){
+    private User(JSONObject object){
         this.id = object.getInt("id");
         this.last = object.optString("last_name", null);
         this.first = object.optString("first_name", null);
         this.username = object.optString("username", null);
     }
 
-    public int getId(){
+    public static User create(JSONObject object){
+        if(object == null || !object.has("id") || object.has("id")){
+            return null;
+        }
+        return new User(object);
+    }
+
+    public Integer getId(){
         return this.id;
     }
 

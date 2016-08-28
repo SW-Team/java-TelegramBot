@@ -1,7 +1,7 @@
 package milk.telegram.media.interfaces;
 
-public interface IntegerId{
+public interface Idable<T>{
 
-    int getId();
+    T getId();
 
 }

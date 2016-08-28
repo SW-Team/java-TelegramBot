@@ -1,9 +1,9 @@
 package milk.telegram.media.message.type;
 
-import milk.telegram.media.interfaces.StringId;
+import milk.telegram.media.interfaces.Idable;
 import org.json.JSONObject;
 
-public class Sticker implements StringId{
+public class Sticker implements Idable<String>{
 
     private String file_id;
 
