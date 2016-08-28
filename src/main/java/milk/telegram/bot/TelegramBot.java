@@ -78,7 +78,7 @@ public class TelegramBot extends Thread{
             if(Thread.interrupted() || this.token.length() < 45) break;
 
             if(this.handler == null){
-                this.handler = new DefaultHandler(this);
+                this.setHandler(new DefaultHandler());
             }else if(!this.handler.isActivate()){
                 this.handler.setBot(this);
             }

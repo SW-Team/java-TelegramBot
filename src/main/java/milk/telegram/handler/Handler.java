@@ -9,12 +9,6 @@ public abstract class Handler{
 
     protected TelegramBot bot = null;
 
-    public Handler(){}
-
-    public Handler(TelegramBot bot){
-        this.bot = bot;
-    }
-
     public TelegramBot getBot(){
         return bot;
     }
