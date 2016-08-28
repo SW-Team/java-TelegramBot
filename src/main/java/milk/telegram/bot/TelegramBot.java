@@ -5,6 +5,7 @@ import cn.nukkit.Server;
 import milk.telegram.handler.DefaultHandler;
 import milk.telegram.handler.Handler;
 import milk.telegram.media.Update;
+import milk.telegram.media.chat.SuperGroup;
 import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.User;
 import milk.telegram.media.message.Message;
@@ -153,7 +154,9 @@ public class TelegramBot extends Thread{
     }
 
     public Message sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
-        if(chat instanceof Idable){
+        if(chat instanceof SuperGroup){
+            chat = ((SuperGroup) chat).getUsername();
+        }else if(chat instanceof Idable){
             chat = ((Idable) chat).getId();
         }else if(!(chat instanceof String || chat instanceof Integer)){
             return null;
