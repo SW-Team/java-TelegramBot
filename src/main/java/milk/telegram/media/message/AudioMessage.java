@@ -9,7 +9,7 @@ public class AudioMessage extends Message{
 
     public AudioMessage(JSONObject object){
         super(object);
-        this.audio = new Audio(object.getJSONObject("audio"));
+        this.audio = Audio.create(object.getJSONObject("audio"));
     }
 
     public Audio getAudio(){

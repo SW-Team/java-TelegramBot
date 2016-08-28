@@ -9,7 +9,7 @@ public class ContactMessage extends Message{
 
     public ContactMessage(JSONObject object){
         super(object);
-        this.contact = new Contact(object.getJSONObject("contact"));
+        this.contact = Contact.create(object.getJSONObject("contact"));
     }
 
     public Contact getContact(){

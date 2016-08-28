@@ -4,8 +4,15 @@ import org.json.JSONObject;
 
 public class Document{
 
-    public Document(JSONObject object){
+    private Document(JSONObject object){
 
+    }
+
+    public static Document create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+        return new Document(object);
     }
 
 }

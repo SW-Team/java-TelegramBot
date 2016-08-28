@@ -17,7 +17,7 @@ public class PhotoMessage extends Message implements Textable{
         this.caption = object.optString("caption", null);
         this.photo = new ArrayList<>();
         object.getJSONArray("photo").forEach(obj -> {
-            if(obj instanceof JSONObject) this.photo.add(new PhotoSize((JSONObject) obj));
+            if(obj instanceof JSONObject) this.photo.add(PhotoSize.create((JSONObject) obj));
         });
     }
 

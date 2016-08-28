@@ -6,7 +6,7 @@ import milk.telegram.handler.DefaultHandler;
 import milk.telegram.handler.Handler;
 import milk.telegram.media.Update;
 import milk.telegram.media.interfaces.Idable;
-import milk.telegram.media.user.User;
+import milk.telegram.media.User;
 import milk.telegram.media.message.Message;
 
 import org.json.JSONArray;

@@ -4,8 +4,15 @@ import org.json.JSONObject;
 
 public class Video{
 
-    public Video(JSONObject object){
+    private Video(JSONObject object){
 
+    }
+
+    public static Video create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+        return new Video(object);
     }
 
 }

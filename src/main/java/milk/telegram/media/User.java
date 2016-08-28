@@ -1,4 +1,4 @@
-package milk.telegram.media.user;
+package milk.telegram.media;
 
 import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.interfaces.Usernamed;
@@ -20,7 +20,7 @@ public class User implements Idable<Integer>, Usernamed{
     }
 
     public static User create(JSONObject object){
-        if(object == null || !object.has("id") || object.has("id")){
+        if(object == null){
             return null;
         }
         return new User(object);

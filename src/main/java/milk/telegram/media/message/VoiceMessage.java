@@ -9,7 +9,7 @@ public class VoiceMessage extends Message{
 
     public VoiceMessage(JSONObject object){
         super(object);
-        this.voice = new Voice(object.getJSONObject("voice"));
+        this.voice = Voice.create(object.getJSONObject("voice"));
     }
 
     public Voice getVoice(){

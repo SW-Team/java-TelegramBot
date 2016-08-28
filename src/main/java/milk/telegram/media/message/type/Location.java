@@ -4,8 +4,15 @@ import org.json.JSONObject;
 
 public class Location{
 
-    public Location(JSONObject object){
+    private Location(JSONObject object){
 
+    }
+
+    public static Location create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+        return new Location(object);
     }
 
 }

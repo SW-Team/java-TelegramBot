@@ -12,7 +12,7 @@ public class DocumentMessage extends Message implements Textable{
     public DocumentMessage(JSONObject object){
         super(object);
         this.caption = object.optString("caption", null);
-        this.document = new Document(object.getJSONObject("document"));
+        this.document = Document.create(object.getJSONObject("document"));
     }
 
     public String getText(){

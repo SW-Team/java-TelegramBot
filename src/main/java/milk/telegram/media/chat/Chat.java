@@ -15,6 +15,10 @@ public abstract class Chat implements Idable<Integer>{
     }
 
     public static Chat create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+
         switch(object.getString("type")){
             case "group":
                 return new Group(object);

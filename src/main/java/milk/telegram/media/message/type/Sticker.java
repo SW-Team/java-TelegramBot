@@ -14,12 +14,19 @@ public class Sticker implements Idable<String>{
 
     private Object thumb;
 
-    public Sticker(JSONObject object){
+    private Sticker(JSONObject object){
         this.file_id = object.getString("file_id");
         this.width = object.getInt("width");
         this.height = object.getInt("height");
         this.file_size = object.getInt("file_size");
         this.thumb = object.get("thumb");
+    }
+
+    public static Sticker create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+        return new Sticker(object);
     }
 
     public String getId(){

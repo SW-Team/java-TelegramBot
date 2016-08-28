@@ -9,7 +9,7 @@ public class LocationMessage extends Message{
 
     public LocationMessage(JSONObject object){
         super(object);
-        this.location = new Location(object.getJSONObject("location"));
+        this.location = Location.create(object.getJSONObject("location"));
     }
 
     public Location getLocation(){

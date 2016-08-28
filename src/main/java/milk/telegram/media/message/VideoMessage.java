@@ -1,9 +1,10 @@
 package milk.telegram.media.message;
 
+import milk.telegram.media.interfaces.Textable;
 import milk.telegram.media.message.type.Video;
 import org.json.JSONObject;
 
-public class VideoMessage extends Message{
+public class VideoMessage extends Message implements Textable{
 
     private Video video;
     private String caption;
@@ -11,7 +12,7 @@ public class VideoMessage extends Message{
     public VideoMessage(JSONObject object){
         super(object);
         this.caption = object.optString("caption", null);
-        this.video = new Video(object.getJSONObject("video"));
+        this.video = Video.create(object.getJSONObject("video"));
     }
 
     public Video getVideo(){

@@ -10,7 +10,7 @@ public class StickerMessage extends Message{
     public StickerMessage(JSONObject object){
         super(object);
 
-        this.sticker = new Sticker(object.getJSONObject("sticker"));
+        this.sticker = Sticker.create(object.getJSONObject("sticker"));
     }
 
     public Sticker getSticker(){

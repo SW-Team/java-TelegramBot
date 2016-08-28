@@ -9,7 +9,7 @@ public class VenueMessage extends Message{
 
     public VenueMessage(JSONObject object){
         super(object);
-        this.venue = new Venue(object.getJSONObject("venue"));
+        this.venue = Venue.create(object.getJSONObject("venue"));
     }
 
     public Venue getVenue(){

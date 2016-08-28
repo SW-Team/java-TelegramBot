@@ -4,8 +4,15 @@ import org.json.JSONObject;
 
 public class Voice{
 
-    public Voice(JSONObject object){
+    private Voice(JSONObject object){
 
+    }
+
+    public static Voice create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+        return new Voice(object);
     }
 
 }

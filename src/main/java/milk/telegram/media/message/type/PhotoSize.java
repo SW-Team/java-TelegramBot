@@ -1,15 +1,33 @@
 package milk.telegram.media.message.type;
 
+import milk.telegram.media.interfaces.Idable;
 import org.json.JSONObject;
 
-public class PhotoSize{
+public class PhotoSize implements Idable<String>{
+
+    private final String id;
 
     private final int width;
     private final int height;
 
-    public PhotoSize(JSONObject object){
+    private final Integer size;
+
+    private PhotoSize(JSONObject object){
+        this.id = object.getString("file_id");
         this.width  = object.getInt("width");
         this.height = object.getInt("height");
+        this.size = object.has("file_size") ? object.getInt("file_size") : null;
+    }
+
+    public static PhotoSize create(JSONObject object){
+        if(object == null){
+            return null;
+        }
+        return new PhotoSize(object);
+    }
+
+    public String getId(){
+        return id;
     }
 
     public int getWidth(){
@@ -19,4 +37,9 @@ public class PhotoSize{
     public int getHeight(){
         return this.height;
     }
+
+    public Integer getSize(){
+        return size;
+    }
+
 }
