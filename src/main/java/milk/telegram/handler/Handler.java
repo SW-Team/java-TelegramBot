@@ -17,10 +17,6 @@ public abstract class Handler{
         this.bot = bot;
     }
 
-    public boolean isActivate(){
-        return this.bot != null;
-    }
-
     public abstract void update(List<Update> date);
 
 }

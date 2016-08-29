@@ -34,22 +34,17 @@ public class TelegramBot extends Thread{
     private User me;
 
     public TelegramBot(String token){
-        this.setToken(token);
-    }
-
-    public TelegramBot(String token, int timeout){
-        this(token);
-        this.setTimeout(timeout);
+        this(token, new DefaultHandler());
     }
 
     public TelegramBot(String token, Handler handler){
-        this(token);
-        this.setHandler(handler);
+        this(token, handler, 1000);
     }
 
     public TelegramBot(String token, Handler handler, int timeout){
-        this(token, handler);
+        this.setToken(token);
         this.setTimeout(timeout);
+        this.setHandler(handler);
     }
 
     public final JSONObject updateResponse(String key, JSONObject object){
@@ -76,15 +71,13 @@ public class TelegramBot extends Thread{
 
     public void run(){
         while(true){
-            if(Thread.interrupted() || this.token.length() < 45) break;
-
-            if(this.handler == null){
-                this.setHandler(new DefaultHandler());
-            }else if(!this.handler.isActivate()){
-                this.handler.setBot(this);
-            }
+            if(Thread.interrupted() || this.token.length() < 45 || this.handler == null) break;
 
             try{
+                if(this.handler.getBot() != this){
+                    this.handler.setBot(this);
+                }
+
                 JSONObject k = new JSONObject();
                 if(this.lastId > 0){
                     k.put("offset", this.lastId + 1);
@@ -115,7 +108,12 @@ public class TelegramBot extends Thread{
 
     public User getMe(){
         if(this.me == null){
-            this.me = User.create(updateResponse("getMe", null));
+            JSONObject ob = updateResponse("getMe", null);
+            if(ob != null && ob.has("result")){
+                this.me = User.create(ob.getJSONObject("result"));
+            }else{
+                return null;
+            }
         }
         return this.me;
     }
@@ -125,7 +123,6 @@ public class TelegramBot extends Thread{
             return;
         }
         this.token = token;
-        this.me = User.create(updateResponse("getMe", null));
     }
 
     public void setTimeout(int time){
@@ -133,6 +130,9 @@ public class TelegramBot extends Thread{
     }
 
     public void setHandler(Handler handler){
+        if(handler == null){
+            handler = new DefaultHandler();
+        }
         handler.setBot(this);
         this.handler = handler;
     }
@@ -176,7 +176,11 @@ public class TelegramBot extends Thread{
         if(reply_message != null) object.put("reply_to_message_id", reply_message);
         if(disable_web != null) object.put("disable_web_page_preview", disable_web);
 
-        return Message.create(updateResponse("sendMessage", object));
+        JSONObject ob = updateResponse("sendMessage", object);
+        if(ob != null && ob.has("result")){
+            return Message.create(ob.getJSONObject("result"));
+        }
+        return null;
     }
 
 }
