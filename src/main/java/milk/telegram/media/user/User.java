@@ -1,4 +1,4 @@
-package milk.telegram.media;
+package milk.telegram.media.user;
 
 import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.interfaces.Usernamed;

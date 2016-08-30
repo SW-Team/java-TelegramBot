@@ -1,13 +1,14 @@
 package milk.telegram.bot;
 
-import cn.nukkit.Server;
-
 import milk.telegram.handler.DefaultHandler;
 import milk.telegram.handler.Handler;
 import milk.telegram.media.Update;
 import milk.telegram.media.chat.SuperGroup;
 import milk.telegram.media.interfaces.Idable;
-import milk.telegram.media.User;
+import milk.telegram.media.message.StickerMessage;
+import milk.telegram.media.message.TextMessage;
+import milk.telegram.media.message.type.Sticker;
+import milk.telegram.media.user.User;
 import milk.telegram.media.message.Message;
 
 import org.json.JSONArray;
@@ -64,14 +65,14 @@ public class TelegramBot extends Thread{
 
             return new JSONObject(new JSONTokener(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)));
         }catch(Exception e){
-            Server.getInstance().getLogger().debug("Class: " + e.getClass().getName() + "\nMessage: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
 
     public void run(){
         while(true){
-            if(Thread.interrupted() || this.token.length() < 45 || this.handler == null) break;
+            if(this.isInterrupted() || this.token.length() < 45 || this.handler == null) break;
 
             try{
                 if(this.handler.getBot() != this){
@@ -137,27 +138,25 @@ public class TelegramBot extends Thread{
         this.handler = handler;
     }
 
-    public Message sendMessage(String text, Object chat_id){
+    public TextMessage sendMessage(String text, Object chat_id){
         return sendMessage(text, chat_id, null);
     }
 
-    public Message sendMessage(String text, Object chat, Object reply_message){
+    public TextMessage sendMessage(String text, Object chat, Object reply_message){
         return sendMessage(text, chat, reply_message, null);
     }
 
-    public Message sendMessage(String text, Object chat, Object reply_message, String parse_mode){
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode){
         return sendMessage(text, chat, reply_message, parse_mode, null);
     }
 
-    public Message sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web){
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web){
         return sendMessage(text, chat, reply_message, parse_mode, disable_web, null);
     }
 
-    public Message sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
-        if(chat instanceof SuperGroup){
-            chat = ((SuperGroup) chat).getUsername();
-        }else if(chat instanceof Idable){
-            chat = ((Idable) chat).getId();
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
+        if(chat instanceof Idable){
+            chat = chat instanceof SuperGroup ? ((SuperGroup) chat).getUsername() : ((Idable) chat).getId();
         }else if(!(chat instanceof String || chat instanceof Integer)){
             return null;
         }
@@ -178,7 +177,77 @@ public class TelegramBot extends Thread{
 
         JSONObject ob = updateResponse("sendMessage", object);
         if(ob != null && ob.has("result")){
+            return (TextMessage) Message.create(ob.getJSONObject("result"));
+        }
+        return null;
+    }
+
+    public Message forwardMessage(Object message, Object chat, Object chat_from){
+        return forwardMessage(message, chat, chat_from, null);
+    }
+
+    public Message forwardMessage(Object message, Object chat, Object chat_from, Boolean disable_noti){
+        if(chat instanceof Idable){
+            chat = chat instanceof SuperGroup ? ((SuperGroup) chat).getUsername() : ((Idable) chat).getId();
+        }else if(!(chat instanceof String || chat instanceof Integer)){
+            return null;
+        }
+
+        if(message instanceof Message){
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Integer)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        object.put("message_id", message);
+        object.put("from_chat_id", chat_from);
+        if(disable_noti != null) object.put("disable_notification", disable_noti);
+
+        JSONObject ob = updateResponse("forwardMessage", object);
+        if(ob != null && ob.has("result")){
             return Message.create(ob.getJSONObject("result"));
+        }
+        return null;
+    }
+
+    public StickerMessage sendSticker(Object sticker, Object chat){
+        return sendSticker(sticker, chat, null);
+    }
+
+    public StickerMessage sendSticker(Object sticker, Object chat, Object reply_message){
+        return sendSticker(sticker, chat, reply_message, null);
+    }
+
+    public StickerMessage sendSticker(Object sticker, Object chat, Object reply_message, Boolean disable_noti){
+        if(sticker instanceof Sticker){
+            sticker = ((Sticker) sticker).getId();
+        }else if(!(sticker instanceof String)){
+            return null;
+        }
+
+        if(chat instanceof Idable){
+            chat = chat instanceof SuperGroup ? ((SuperGroup) chat).getUsername() : ((Idable) chat).getId();
+        }else if(!(chat instanceof String || chat instanceof Integer)){
+            return null;
+        }
+
+        if(reply_message instanceof Message){
+            reply_message = ((Message) reply_message).getId();
+        }else if(reply_message != null && !(reply_message instanceof Integer)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        object.put("sticker", sticker);
+        if(disable_noti != null) object.put("disable_notification", disable_noti);
+        if(reply_message != null) object.put("reply_to_message_id", reply_message);
+
+        JSONObject ob = updateResponse("sendSticker", object);
+        if(ob != null && ob.has("result")){
+            return (StickerMessage) Message.create(ob.getJSONObject("result"));
         }
         return null;
     }

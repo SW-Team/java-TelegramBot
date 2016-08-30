@@ -2,7 +2,7 @@ package milk.telegram.media.inline;
 
 import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.message.type.Location;
-import milk.telegram.media.User;
+import milk.telegram.media.user.User;
 
 import org.json.JSONObject;
 

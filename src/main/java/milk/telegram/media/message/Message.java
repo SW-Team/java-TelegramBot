@@ -2,7 +2,7 @@ package milk.telegram.media.message;
 
 import milk.telegram.media.chat.Chat;
 import milk.telegram.media.interfaces.Idable;
-import milk.telegram.media.User;
+import milk.telegram.media.user.User;
 import org.json.JSONObject;
 
 public class Message implements Idable<Integer>{

@@ -2,6 +2,7 @@ package milk.telegram.media;
 
 import milk.telegram.media.interfaces.Idable;
 import milk.telegram.media.message.Message;
+import milk.telegram.media.user.User;
 import org.json.JSONObject;
 
 public class CallbackQuery implements Idable<String>{
