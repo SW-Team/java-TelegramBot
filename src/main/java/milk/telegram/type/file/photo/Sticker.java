@@ -5,21 +5,25 @@ import org.json.JSONObject;
 
 public class Sticker implements Idable<String>{
 
-    private String file_id;
+    private final String file_id;
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
-    private int file_size;
+    private final Integer file_size;
 
-    private Object thumb;
+    private final String emoji;
+
+    private final PhotoSize thumb;
 
     private Sticker(JSONObject object){
         this.file_id = object.getString("file_id");
         this.width = object.getInt("width");
         this.height = object.getInt("height");
-        this.file_size = object.getInt("file_size");
-        this.thumb = object.get("thumb");
+
+        this.emoji = object.optString("emoji");
+        this.thumb = PhotoSize.create(object.optJSONObject("thumb"));
+        this.file_size = object.has("file_size") ? object.getInt("file_size") : null;
     }
 
     public static Sticker create(JSONObject object){
@@ -31,6 +35,10 @@ public class Sticker implements Idable<String>{
 
     public String getId(){
         return this.file_id;
+    }
+
+    public String getEmoji(){
+        return emoji;
     }
 
     public int getSize(){
@@ -45,8 +53,7 @@ public class Sticker implements Idable<String>{
         return this.height;
     }
 
-    public Object getThumb(){
+    public PhotoSize getThumb(){
         return this.thumb;
     }
-
 }
