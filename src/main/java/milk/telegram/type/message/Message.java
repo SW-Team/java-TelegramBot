@@ -13,11 +13,17 @@ public class Message implements Idable<Integer>{
     private User from;
     private Chat chat;
 
+    private final User forward_from;
+    private final Chat forward_from_chat;
+
     protected Message(JSONObject object){
         this.message_id = object.getInt("message_id");
         this.date = object.getInt("date");
         this.from = User.create(object.getJSONObject("from"));
         this.chat = Chat.create(object.getJSONObject("chat"));
+
+        this.forward_from = User.create(object.optJSONObject("forward_from"));
+        this.forward_from_chat = Chat.create(object.optJSONObject("forward_from_chat"));
     }
 
     public static Message create(JSONObject object){
@@ -37,8 +43,6 @@ public class Message implements Idable<Integer>{
             return new PhotoMessage(object);
         }else if(object.has("sticker")){
             return new StickerMessage(object);
-        }else if(object.has("forward_from_chat") || object.has("forward_from")){
-            return new ForwardMessage(object);
         }else if(object.has("text")){
             return new TextMessage(object);
         }else if(object.has("venue")){
@@ -65,6 +69,18 @@ public class Message implements Idable<Integer>{
 
     public Chat getChat(){
         return this.chat;
+    }
+
+    public boolean isForwardMessage(){
+        return this.forward_from != null || this.forward_from_chat != null;
+    }
+
+    public User getForwardFrom(){
+        return forward_from;
+    }
+
+    public Chat getForwardChat(){
+        return forward_from_chat;
     }
 
 }
