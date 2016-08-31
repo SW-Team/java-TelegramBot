@@ -2,14 +2,14 @@ package milk.telegram.bot;
 
 import milk.telegram.handler.DefaultHandler;
 import milk.telegram.handler.Handler;
-import milk.telegram.media.Update;
-import milk.telegram.media.chat.SuperGroup;
-import milk.telegram.media.interfaces.Idable;
-import milk.telegram.media.message.StickerMessage;
-import milk.telegram.media.message.TextMessage;
-import milk.telegram.media.message.type.Sticker;
-import milk.telegram.media.user.User;
-import milk.telegram.media.message.Message;
+import milk.telegram.update.Update;
+import milk.telegram.type.chat.SuperGroup;
+import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.message.StickerMessage;
+import milk.telegram.type.message.TextMessage;
+import milk.telegram.type.file.photo.Sticker;
+import milk.telegram.type.user.User;
+import milk.telegram.type.message.Message;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -113,7 +113,7 @@ public class TelegramBot extends Thread{
             if(ob != null && ob.has("result")){
                 this.me = User.create(ob.getJSONObject("result"));
             }else{
-                return null;
+                this.me = null;
             }
         }
         return this.me;
@@ -124,6 +124,12 @@ public class TelegramBot extends Thread{
             return;
         }
         this.token = token;
+        JSONObject ob = updateResponse("getMe", null);
+        if(ob != null && ob.has("result")){
+            this.me = User.create(ob.getJSONObject("result"));
+        }else{
+            this.me = null;
+        }
     }
 
     public void setTimeout(int time){

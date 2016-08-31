@@ -1,12 +1,11 @@
 package milk.telegram.handler;
 
 import cn.nukkit.Server;
-import milk.telegram.bot.TelegramBot;
 import milk.telegram.event.TelegramCommandReceiveEvent;
 import milk.telegram.event.TelegramMessageReceiveEvent;
-import milk.telegram.media.Update;
-import milk.telegram.media.message.Message;
-import milk.telegram.media.message.TextMessage;
+import milk.telegram.update.Update;
+import milk.telegram.type.message.Message;
+import milk.telegram.type.message.TextMessage;
 
 import java.util.List;
 

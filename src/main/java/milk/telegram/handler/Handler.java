@@ -1,7 +1,7 @@
 package milk.telegram.handler;
 
 import milk.telegram.bot.TelegramBot;
-import milk.telegram.media.Update;
+import milk.telegram.update.Update;
 
 import java.util.List;
 

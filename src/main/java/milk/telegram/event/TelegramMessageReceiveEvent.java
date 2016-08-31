@@ -3,7 +3,7 @@ package milk.telegram.event;
 import cn.nukkit.event.Event;
 import cn.nukkit.event.HandlerList;
 import milk.telegram.bot.TelegramBot;
-import milk.telegram.media.message.Message;
+import milk.telegram.type.message.Message;
 
 public class TelegramMessageReceiveEvent extends Event{
 
