@@ -7,11 +7,11 @@ import org.json.JSONObject;
 
 public class Message implements Idable<Integer>{
 
-    private int date;
-    private int message_id;
+    private final int date;
+    private final int message_id;
 
-    private User from;
-    private Chat chat;
+    private final User from;
+    private final Chat chat;
 
     private final User forward_from;
     private final Chat forward_from_chat;
@@ -29,6 +29,11 @@ public class Message implements Idable<Integer>{
     public static Message create(JSONObject object){
         if(object == null){
             return null;
+        }else if(object.has("result")){
+            object = object.optJSONObject("result");
+            if(object.length() < 1){
+                return null;
+            }
         }
 
         if(object.has("audio")){

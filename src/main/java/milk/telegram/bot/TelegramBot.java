@@ -2,6 +2,9 @@ package milk.telegram.bot;
 
 import milk.telegram.handler.DefaultHandler;
 import milk.telegram.handler.Handler;
+import milk.telegram.type.chat.Channel;
+import milk.telegram.type.file.photo.UserProfilePhotos;
+import milk.telegram.type.interfaces.Usernamed;
 import milk.telegram.update.Update;
 import milk.telegram.type.chat.SuperGroup;
 import milk.telegram.type.interfaces.Idable;
@@ -28,6 +31,7 @@ public class TelegramBot extends Thread{
     private String token = "";
 
     private int lastId = 0;
+    private int limit = 100;
     private int timeout = 1000;
 
     private Handler handler = null;
@@ -80,9 +84,9 @@ public class TelegramBot extends Thread{
                 }
 
                 JSONObject k = new JSONObject();
-                if(this.lastId > 0){
-                    k.put("offset", this.lastId + 1);
-                }
+                k.put("limit", this.getLimit());
+                if(this.lastId > 0) k.put("offset", this.lastId + 1);
+
                 JSONObject update = this.updateResponse("getUpdates", k);
                 if(update == null){
                     continue;
@@ -103,20 +107,21 @@ public class TelegramBot extends Thread{
                     this.lastId = kkk.getId();
                 }
                 this.handler.update(list);
-            }catch(Exception e){}
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     public User getMe(){
         if(this.me == null){
-            JSONObject ob = updateResponse("getMe", null);
-            if(ob != null && ob.has("result")){
-                this.me = User.create(ob.getJSONObject("result"));
-            }else{
-                this.me = null;
-            }
+            this.me = User.create(updateResponse("getMe", null));
         }
         return this.me;
+    }
+
+    public int getLimit(){
+        return limit;
     }
 
     public void setToken(String token){
@@ -124,12 +129,11 @@ public class TelegramBot extends Thread{
             return;
         }
         this.token = token;
-        JSONObject ob = updateResponse("getMe", null);
-        if(ob != null && ob.has("result")){
-            this.me = User.create(ob.getJSONObject("result"));
-        }else{
-            this.me = null;
-        }
+        this.me = User.create(updateResponse("getMe", null));
+    }
+
+    public void setLimit(int value){
+        this.limit = Math.max(1, Math.min(100, value));
     }
 
     public void setTimeout(int time){
@@ -144,8 +148,21 @@ public class TelegramBot extends Thread{
         this.handler = handler;
     }
 
-    public TextMessage sendMessage(String text, Object chat_id){
-        return sendMessage(text, chat_id, null);
+    public void sendChatAction(String action, Object chat){
+        if(chat instanceof Idable){
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
+        }else if(!(chat instanceof String || chat instanceof Integer)){
+            return;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        object.put("action", action);
+        this.updateResponse("sendChatAction", object);
+    }
+
+    public TextMessage sendMessage(String text, Object chat){
+        return sendMessage(text, chat, null);
     }
 
     public TextMessage sendMessage(String text, Object chat, Object reply_message){
@@ -162,7 +179,7 @@ public class TelegramBot extends Thread{
 
     public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
         if(chat instanceof Idable){
-            chat = chat instanceof SuperGroup ? ((SuperGroup) chat).getUsername() : ((Idable) chat).getId();
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
         }else if(!(chat instanceof String || chat instanceof Integer)){
             return null;
         }
@@ -181,11 +198,7 @@ public class TelegramBot extends Thread{
         if(reply_message != null) object.put("reply_to_message_id", reply_message);
         if(disable_web != null) object.put("disable_web_page_preview", disable_web);
 
-        JSONObject ob = updateResponse("sendMessage", object);
-        if(ob != null && ob.has("result")){
-            return (TextMessage) Message.create(ob.getJSONObject("result"));
-        }
-        return null;
+        return (TextMessage) Message.create(updateResponse("sendMessage", object));
     }
 
     public Message forwardMessage(Object message, Object chat, Object chat_from){
@@ -193,15 +206,21 @@ public class TelegramBot extends Thread{
     }
 
     public Message forwardMessage(Object message, Object chat, Object chat_from, Boolean disable_noti){
+        if(message instanceof Message){
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Integer)){
+            return null;
+        }
+
         if(chat instanceof Idable){
-            chat = chat instanceof SuperGroup ? ((SuperGroup) chat).getUsername() : ((Idable) chat).getId();
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
         }else if(!(chat instanceof String || chat instanceof Integer)){
             return null;
         }
 
-        if(message instanceof Message){
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Integer)){
+        if(chat_from instanceof Idable){
+            chat_from = (chat instanceof SuperGroup || chat instanceof Channel) ? ((Usernamed) chat_from).getUsername() : ((Idable) chat_from).getId();
+        }else if(!(chat_from instanceof String || chat_from instanceof Integer)){
             return null;
         }
 
@@ -211,11 +230,7 @@ public class TelegramBot extends Thread{
         object.put("from_chat_id", chat_from);
         if(disable_noti != null) object.put("disable_notification", disable_noti);
 
-        JSONObject ob = updateResponse("forwardMessage", object);
-        if(ob != null && ob.has("result")){
-            return Message.create(ob.getJSONObject("result"));
-        }
-        return null;
+        return Message.create(updateResponse("forwardMessage", object));
     }
 
     public StickerMessage sendSticker(Object sticker, Object chat){
@@ -234,7 +249,7 @@ public class TelegramBot extends Thread{
         }
 
         if(chat instanceof Idable){
-            chat = chat instanceof SuperGroup ? ((SuperGroup) chat).getUsername() : ((Idable) chat).getId();
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
         }else if(!(chat instanceof String || chat instanceof Integer)){
             return null;
         }
@@ -251,11 +266,61 @@ public class TelegramBot extends Thread{
         if(disable_noti != null) object.put("disable_notification", disable_noti);
         if(reply_message != null) object.put("reply_to_message_id", reply_message);
 
-        JSONObject ob = updateResponse("sendSticker", object);
-        if(ob != null && ob.has("result")){
-            return (StickerMessage) Message.create(ob.getJSONObject("result"));
-        }
-        return null;
+        return (StickerMessage) Message.create(updateResponse("sendSticker", object));
     }
 
+    public UserProfilePhotos getUserProfilePhotos(Object user){
+        return getUserProfilePhotos(user, null);
+    }
+
+    public UserProfilePhotos getUserProfilePhotos(Object user, Integer offset){
+        return getUserProfilePhotos(user, null, null);
+    }
+
+    public UserProfilePhotos getUserProfilePhotos(Object user, Integer offset, Integer limit){
+        if(user instanceof User){
+            user = ((User) user).getId();
+        }else if(!(user instanceof Integer)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("limit", limit);
+        object.put("user_id", user);
+        object.put("offset", offset);
+        return UserProfilePhotos.create(updateResponse("getUserProfilePhotos", object));
+    }
+
+    public boolean kickChatMember(Object chat, Object user){
+        if(chat instanceof Idable){
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
+        }else if(!(chat instanceof String || chat instanceof Integer)){
+            return false;
+        }
+
+        if(user instanceof User){
+            user = ((User) user).getId();
+        }else if(!(user instanceof Integer)){
+            return false;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        object.put("user_id", user);
+        JSONObject ob = updateResponse("kickChatMember", object);
+        return ob != null && ob.optBoolean("result");
+    }
+
+    public boolean leaveChat(Object chat){
+        if(chat instanceof Idable){
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
+        }else if(!(chat instanceof String || chat instanceof Integer)){
+            return false;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        JSONObject ob = updateResponse("leaveChat", object);
+        return ob != null && ob.optBoolean("result");
+    }
 }

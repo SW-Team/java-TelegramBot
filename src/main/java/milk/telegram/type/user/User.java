@@ -22,6 +22,11 @@ public class User implements Idable<Integer>, Usernamed{
     public static User create(JSONObject object){
         if(object == null){
             return null;
+        }else if(object.has("result")){
+            object = object.optJSONObject("result");
+            if(object.length() < 1){
+                return null;
+            }
         }
         return new User(object);
     }
