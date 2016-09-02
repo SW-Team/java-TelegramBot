@@ -80,10 +80,6 @@ public class TelegramBot extends Thread{
             if(this.isInterrupted() || this.token.length() < 45 || this.handler == null) break;
 
             try{
-                if(this.handler.getBot() != this){
-                    this.handler.setBot(this);
-                }
-
                 JSONObject k = new JSONObject();
                 k.put("limit", this.getLimit());
                 if(this.lastId > 0) k.put("offset", this.lastId + 1);
@@ -143,7 +139,6 @@ public class TelegramBot extends Thread{
 
     public void setHandler(Handler handler){
         this.handler = handler;
-        if(handler != null) handler.setBot(this);
     }
 
     public void sendChatAction(String action, Object chat){
@@ -181,7 +176,7 @@ public class TelegramBot extends Thread{
         }else if(!(chat instanceof String || chat instanceof Integer)){
             return null;
         }
-        
+
         if(reply_message instanceof Message){
             reply_message = ((Message) reply_message).getId();
         }else if(reply_message != null && !(reply_message instanceof Integer)){
