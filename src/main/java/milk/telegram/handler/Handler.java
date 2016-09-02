@@ -17,6 +17,6 @@ public abstract class Handler{
         this.bot = bot;
     }
 
-    public abstract void update(List<Update> date);
+    public abstract void update(List<Update> list);
 
 }

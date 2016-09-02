@@ -13,6 +13,8 @@ public class Message implements Idable<Integer>{
     private final User from;
     private final Chat chat;
 
+    private final Message reply_message;
+
     private final User forward_from;
     private final Chat forward_from_chat;
 
@@ -21,6 +23,8 @@ public class Message implements Idable<Integer>{
         this.date = object.getInt("date");
         this.from = User.create(object.getJSONObject("from"));
         this.chat = Chat.create(object.getJSONObject("chat"));
+
+        this.reply_message = Message.create(object.optJSONObject("reply_to_message"));
 
         this.forward_from = User.create(object.optJSONObject("forward_from"));
         this.forward_from_chat = Chat.create(object.optJSONObject("forward_from_chat"));
@@ -76,8 +80,16 @@ public class Message implements Idable<Integer>{
         return this.chat;
     }
 
+    public boolean isReplyMessage(){
+        return this.reply_message != null;
+    }
+
     public boolean isForwardMessage(){
         return this.forward_from != null || this.forward_from_chat != null;
+    }
+
+    public Message getReplyMessage(){
+        return this.reply_message;
     }
 
     public User getForwardFrom(){

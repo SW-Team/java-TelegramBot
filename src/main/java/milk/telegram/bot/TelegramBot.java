@@ -1,6 +1,5 @@
 package milk.telegram.bot;
 
-import milk.telegram.handler.DefaultHandler;
 import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
@@ -41,7 +40,7 @@ public class TelegramBot extends Thread{
     private User me;
 
     public TelegramBot(String token){
-        this(token, new DefaultHandler());
+        this(token, null);
     }
 
     public TelegramBot(String token, Handler handler){
@@ -50,8 +49,8 @@ public class TelegramBot extends Thread{
 
     public TelegramBot(String token, Handler handler, int timeout){
         this.setToken(token);
-        this.setTimeout(timeout);
         this.setHandler(handler);
+        this.setTimeout(timeout);
     }
 
     public final JSONObject updateResponse(String key, JSONObject object){
@@ -143,11 +142,8 @@ public class TelegramBot extends Thread{
     }
 
     public void setHandler(Handler handler){
-        if(handler == null){
-            handler = new DefaultHandler();
-        }
-        handler.setBot(this);
         this.handler = handler;
+        if(handler != null) handler.setBot(this);
     }
 
     public void sendChatAction(String action, Object chat){
@@ -304,13 +300,8 @@ public class TelegramBot extends Thread{
 
         JSONObject object = new JSONObject();
         object.put("chat_id", chat);
-
         JSONObject ob = updateResponse("getChatMembersCount", object);
-        if(ob == null){
-            return null;
-        }
-
-        return ob.optInt("result");
+        return (ob == null || !ob.has("result")) ? null : ob.optInt("result");
     }
 
     public ArrayList<ChatMember> getChatAdministrators(Object chat){
