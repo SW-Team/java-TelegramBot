@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TelegramBot extends Thread{
@@ -141,6 +142,7 @@ public class TelegramBot extends Thread{
         this.handler = handler;
     }
 
+    /** sendMethod */
     public void sendChatAction(String action, Object chat){
         if(chat instanceof Idable){
             chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
@@ -194,38 +196,6 @@ public class TelegramBot extends Thread{
         return (TextMessage) Message.create(updateResponse("sendMessage", object));
     }
 
-    public Message forwardMessage(Object message, Object chat, Object chat_from){
-        return forwardMessage(message, chat, chat_from, null);
-    }
-
-    public Message forwardMessage(Object message, Object chat, Object chat_from, Boolean disable_noti){
-        if(message instanceof Message){
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Integer)){
-            return null;
-        }
-
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
-            return null;
-        }
-
-        if(chat_from instanceof Idable){
-            chat_from = (chat instanceof SuperGroup || chat instanceof Channel) ? ((Usernamed) chat_from).getUsername() : ((Idable) chat_from).getId();
-        }else if(!(chat_from instanceof String || chat_from instanceof Integer)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("message_id", message);
-        object.put("from_chat_id", chat_from);
-        if(disable_noti != null) object.put("disable_notification", disable_noti);
-
-        return Message.create(updateResponse("forwardMessage", object));
-    }
-
     public StickerMessage sendSticker(Object sticker, Object chat){
         return sendSticker(sticker, chat, null);
     }
@@ -261,7 +231,9 @@ public class TelegramBot extends Thread{
 
         return (StickerMessage) Message.create(updateResponse("sendSticker", object));
     }
+    /** sendMethod */
 
+    /** getMethod */
     public Chat getChat(Object chat){
         if(chat instanceof Idable){
             chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
@@ -339,6 +311,39 @@ public class TelegramBot extends Thread{
         object.put("user_id", user);
         object.put("offset", offset);
         return UserProfilePhotos.create(updateResponse("getUserProfilePhotos", object));
+    }
+
+    /** anotherMethod */
+    public Message forwardMessage(Object message, Object chat, Object chat_from){
+        return forwardMessage(message, chat, chat_from, null);
+    }
+
+    public Message forwardMessage(Object message, Object chat, Object chat_from, Boolean disable_noti){
+        if(message instanceof Message){
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Integer)){
+            return null;
+        }
+
+        if(chat instanceof Idable){
+            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
+        }else if(!(chat instanceof String || chat instanceof Integer)){
+            return null;
+        }
+
+        if(chat_from instanceof Idable){
+            chat_from = (chat instanceof SuperGroup || chat instanceof Channel) ? ((Usernamed) chat_from).getUsername() : ((Idable) chat_from).getId();
+        }else if(!(chat_from instanceof String || chat_from instanceof Integer)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        object.put("message_id", message);
+        object.put("from_chat_id", chat_from);
+        if(disable_noti != null) object.put("disable_notification", disable_noti);
+
+        return Message.create(updateResponse("forwardMessage", object));
     }
 
     public boolean kickChatMember(Object user, Object chat){
