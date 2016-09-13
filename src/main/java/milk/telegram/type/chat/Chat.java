@@ -3,14 +3,14 @@ package milk.telegram.type.chat;
 import org.json.JSONObject;
 import milk.telegram.type.interfaces.Idable;
 
-public abstract class Chat implements Idable<Integer>{
+public abstract class Chat implements Idable<Long>{
 
-    private int id;
+    private long id;
 
     private String type;
 
     protected Chat(JSONObject object){
-        this.id = object.getInt("id");
+        this.id = object.getLong("id");
         this.type = object.getString("type");
     }
 
@@ -37,7 +37,7 @@ public abstract class Chat implements Idable<Integer>{
         return null;
     }
 
-    public Integer getId(){
+    public Long getId(){
         return this.id;
     }
 

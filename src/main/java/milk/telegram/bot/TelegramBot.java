@@ -3,6 +3,7 @@ package milk.telegram.bot;
 import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
+import milk.telegram.type.chat.PrivateChat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
 import milk.telegram.type.interfaces.Usernamed;
 import milk.telegram.type.user.ChatMember;
@@ -25,7 +26,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TelegramBot extends Thread{
@@ -74,6 +74,19 @@ public class TelegramBot extends Thread{
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static Object fixChat(Object chat){
+        if(chat instanceof Idable){
+            if(!(chat instanceof PrivateChat) && ((Usernamed) chat).getUsername() != null){
+                chat = "@" + ((Usernamed) chat).getUsername();
+            }else{
+                chat = ((Idable) chat).getId();
+            }
+        }else if(!(chat instanceof String || chat instanceof Number)){
+            return null;
+        }
+        return chat;
     }
 
     public void run(){
@@ -144,9 +157,8 @@ public class TelegramBot extends Thread{
 
     /** sendMethod */
     public void sendChatAction(String action, Object chat){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return;
         }
 
@@ -173,15 +185,14 @@ public class TelegramBot extends Thread{
     }
 
     public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return null;
         }
 
         if(reply_message instanceof Message){
             reply_message = ((Message) reply_message).getId();
-        }else if(reply_message != null && !(reply_message instanceof Integer)){
+        }else if(reply_message != null && !(reply_message instanceof Number)){
             return null;
         }
 
@@ -211,15 +222,14 @@ public class TelegramBot extends Thread{
             return null;
         }
 
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return null;
         }
 
         if(reply_message instanceof Message){
             reply_message = ((Message) reply_message).getId();
-        }else if(reply_message != null && !(reply_message instanceof Integer)){
+        }else if(reply_message != null && !(reply_message instanceof Number)){
             return null;
         }
 
@@ -235,9 +245,7 @@ public class TelegramBot extends Thread{
 
     /** getMethod */
     public Chat getChat(Object chat){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        if(!(chat instanceof String || chat instanceof Number)){
             return null;
         }
 
@@ -247,9 +255,8 @@ public class TelegramBot extends Thread{
     }
 
     public ChatMember getChatMember(Object chat){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return null;
         }
 
@@ -258,10 +265,9 @@ public class TelegramBot extends Thread{
         return ChatMember.create(updateResponse("getChatMember", object));
     }
 
-    public Integer getChatMembersCount(Object chat){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+    public Number getChatMembersCount(Object chat){
+        chat = fixChat(chat);
+        if(chat == null){
             return null;
         }
 
@@ -272,9 +278,8 @@ public class TelegramBot extends Thread{
     }
 
     public ArrayList<ChatMember> getChatAdministrators(Object chat){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return null;
         }
 
@@ -295,14 +300,14 @@ public class TelegramBot extends Thread{
         return getUserProfilePhotos(user, null);
     }
 
-    public UserProfilePhotos getUserProfilePhotos(Object user, Integer offset){
+    public UserProfilePhotos getUserProfilePhotos(Object user, Number offset){
         return getUserProfilePhotos(user, offset, null);
     }
 
-    public UserProfilePhotos getUserProfilePhotos(Object user, Integer offset, Integer limit){
+    public UserProfilePhotos getUserProfilePhotos(Object user, Number offset, Number limit){
         if(user instanceof User){
             user = ((User) user).getId();
-        }else if(!(user instanceof Integer)){
+        }else if(!(user instanceof Number)){
             return null;
         }
 
@@ -321,19 +326,17 @@ public class TelegramBot extends Thread{
     public Message forwardMessage(Object message, Object chat, Object chat_from, Boolean disable_noti){
         if(message instanceof Message){
             message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Integer)){
+        }else if(message != null && !(message instanceof Number)){
             return null;
         }
 
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return null;
         }
 
-        if(chat_from instanceof Idable){
-            chat_from = (chat instanceof SuperGroup || chat instanceof Channel) ? ((Usernamed) chat_from).getUsername() : ((Idable) chat_from).getId();
-        }else if(!(chat_from instanceof String || chat_from instanceof Integer)){
+        chat_from = fixChat(chat_from);
+        if(chat_from == null){
             return null;
         }
 
@@ -347,15 +350,14 @@ public class TelegramBot extends Thread{
     }
 
     public boolean kickChatMember(Object user, Object chat){
-        if(chat instanceof Idable){
-            chat = chat instanceof SuperGroup ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return false;
         }
 
         if(user instanceof User){
             user = ((User) user).getId();
-        }else if(!(user instanceof Integer)){
+        }else if(!(user instanceof Number)){
             return false;
         }
 
@@ -367,15 +369,14 @@ public class TelegramBot extends Thread{
     }
 
     public boolean unbanChatMember(Object user, Object chat){
-        if(chat instanceof Idable){
-            chat = chat instanceof SuperGroup ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return false;
         }
 
         if(user instanceof User){
             user = ((User) user).getId();
-        }else if(!(user instanceof Integer)){
+        }else if(!(user instanceof Number)){
             return false;
         }
 
@@ -387,9 +388,8 @@ public class TelegramBot extends Thread{
     }
 
     public boolean leaveChat(Object chat){
-        if(chat instanceof Idable){
-            chat = (chat instanceof SuperGroup || chat instanceof Channel) ? "@" + ((Usernamed) chat).getUsername() : ((Idable) chat).getId();
-        }else if(!(chat instanceof String || chat instanceof Integer)){
+        chat = fixChat(chat);
+        if(chat == null){
             return false;
         }
 
