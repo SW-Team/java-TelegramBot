@@ -1,9 +1,9 @@
 package milk.telegram.type.file;
 
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import org.json.JSONObject;
 
-public class File implements Idable<String>{
+public class File implements Identifier<String>{
 
     private final String file_id;
     private final String file_path;

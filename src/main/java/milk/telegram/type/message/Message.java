@@ -1,11 +1,11 @@
 package milk.telegram.type.message;
 
 import milk.telegram.type.chat.Chat;
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import milk.telegram.type.user.User;
 import org.json.JSONObject;
 
-public class Message implements Idable<Integer>{
+public class Message implements Identifier<Integer>{
 
     private final int date;
     private final int message_id;

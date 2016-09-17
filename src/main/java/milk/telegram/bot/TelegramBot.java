@@ -3,13 +3,11 @@ package milk.telegram.bot;
 import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
-import milk.telegram.type.chat.PrivateChat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
 import milk.telegram.type.interfaces.Usernamed;
 import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
-import milk.telegram.type.chat.SuperGroup;
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import milk.telegram.type.message.StickerMessage;
 import milk.telegram.type.message.TextMessage;
 import milk.telegram.type.file.photo.Sticker;
@@ -20,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
@@ -30,15 +29,17 @@ import java.util.List;
 
 public class TelegramBot extends Thread{
 
+    public static final String BASE_URL = "https://api.telegram.org/bot%s/%s";
+
     private String token = "";
 
     private int lastId = 0;
     private int limit = 100;
-    private int timeout = 1000;
-
-    private Handler handler = null;
+    private int timeout = 1500;
 
     private User me;
+
+    private Handler handler;
 
     public TelegramBot(String token){
         this(token, null);
@@ -56,7 +57,7 @@ public class TelegramBot extends Thread{
 
     public final JSONObject updateResponse(String key, JSONObject object){
         try{
-            URL url = new URL(String.format("https://api.telegram.org/bot%s/%s", this.token, key));
+            URL url = new URL(String.format(BASE_URL, this.token, key));
             URLConnection connection = url.openConnection();
             connection.setDoInput(true);
             connection.setConnectTimeout(this.timeout);
@@ -64,29 +65,23 @@ public class TelegramBot extends Thread{
 
             if(object != null && object.length() > 0){
                 connection.setDoOutput(true);
-                try(OutputStream stream = connection.getOutputStream()){
-                    stream.write(object.toString().getBytes(StandardCharsets.UTF_8));
-                }
+                OutputStream stream = connection.getOutputStream();
+                stream.write(object.toString().getBytes(StandardCharsets.UTF_8));
             }
 
             return new JSONObject(new JSONTokener(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)));
+        }catch(IOException ex){
         }catch(Exception e){
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     private static Object fixChat(Object chat){
-        if(chat instanceof Idable){
-            if(!(chat instanceof PrivateChat) && ((Usernamed) chat).getUsername() != null){
-                chat = "@" + ((Usernamed) chat).getUsername();
-            }else{
-                chat = ((Idable) chat).getId();
-            }
-        }else if(!(chat instanceof String || chat instanceof Number)){
-            return null;
+        if(chat instanceof Identifier){
+            chat = chat instanceof Channel ? "@" + ((Usernamed) chat).getUsername() : ((Identifier) chat).getId();
         }
-        return chat;
+        return chat instanceof String || chat instanceof Number ? chat : null;
     }
 
     public void run(){
@@ -135,12 +130,16 @@ public class TelegramBot extends Thread{
         return limit;
     }
 
+    public int getTimeout(){
+        return this.timeout;
+    }
+
     public void setToken(String token){
         if(token.length() != 45){
             return;
         }
+        this.me = null;
         this.token = token;
-        this.me = User.create(updateResponse("getMe", null));
     }
 
     public void setLimit(int value){
@@ -185,8 +184,7 @@ public class TelegramBot extends Thread{
     }
 
     public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return null;
         }
 
@@ -222,8 +220,7 @@ public class TelegramBot extends Thread{
             return null;
         }
 
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return null;
         }
 
@@ -254,20 +251,25 @@ public class TelegramBot extends Thread{
         return Chat.create(updateResponse("getChat", object));
     }
 
-    public ChatMember getChatMember(Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+    public ChatMember getChatMember(Object chat, Object user){
+        if((chat = fixChat(chat)) == null){
+            return null;
+        }
+
+        if(user instanceof User){
+            user = ((User) user).getId();
+        }else if(!(user instanceof Number)){
             return null;
         }
 
         JSONObject object = new JSONObject();
         object.put("chat_id", chat);
+        object.put("user_id", user);
         return ChatMember.create(updateResponse("getChatMember", object));
     }
 
     public Number getChatMembersCount(Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return null;
         }
 
@@ -278,8 +280,7 @@ public class TelegramBot extends Thread{
     }
 
     public ArrayList<ChatMember> getChatAdministrators(Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return null;
         }
 
@@ -317,6 +318,73 @@ public class TelegramBot extends Thread{
         object.put("offset", offset);
         return UserProfilePhotos.create(updateResponse("getUserProfilePhotos", object));
     }
+    /** getMethod **/
+
+    /** editMethod **/
+    public TextMessage editMessageText(String text, Object chat, Object message){
+        return editMessageText(text, chat, message, null);
+    }
+
+    public TextMessage editMessageText(String text, Object chat, Object message, String parse_mode){
+        return editMessageText(text, chat, message, parse_mode, null);
+    }
+
+    public TextMessage editMessageText(String text, Object chat, Object message, String parse_mode, Boolean disable_web){
+        if((chat = fixChat(chat)) == null){
+            return null;
+        }
+
+        if(message instanceof Message){
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Number)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("text", text);
+        object.put("chat_id", chat);
+        object.put("message_id", message);
+        if(parse_mode != null) object.put("parse_mode", parse_mode);
+        if(disable_web != null) object.put("disable_web_page_preview", disable_web);
+
+        return (TextMessage) Message.create(updateResponse("editMessageText", object));
+    }
+
+    public TextMessage editMessageText(String text, Integer inline_message_id, String parse_mode, Boolean disable_web){
+        JSONObject object = new JSONObject();
+        object.put("text", text);
+        object.put("inline_message_id", inline_message_id);
+        if(parse_mode != null) object.put("parse_mode", parse_mode);
+        if(disable_web != null) object.put("disable_web_page_preview", disable_web);
+
+        return (TextMessage) Message.create(updateResponse("editMessageText", object));
+    }
+
+    public TextMessage editMessageCaption(String caption, Object chat, Object message){
+        if((chat = fixChat(chat)) == null){
+            return null;
+        }
+
+        if(message instanceof Message){
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Number)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("caption", caption);
+        object.put("chat_id", chat);
+        object.put("message_id", message);
+        return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
+    }
+
+    public TextMessage editMessageCaption(String caption, Object inline_message_id){
+        JSONObject object = new JSONObject();
+        object.put("caption", caption);
+        object.put("inline_message_id", inline_message_id);
+        return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
+    }
+    /** editMethod **/
 
     /** anotherMethod */
     public Message forwardMessage(Object message, Object chat, Object chat_from){
@@ -330,13 +398,7 @@ public class TelegramBot extends Thread{
             return null;
         }
 
-        chat = fixChat(chat);
-        if(chat == null){
-            return null;
-        }
-
-        chat_from = fixChat(chat_from);
-        if(chat_from == null){
+        if((chat = fixChat(chat)) == null || (chat_from = fixChat(chat_from)) == null){
             return null;
         }
 
@@ -350,8 +412,7 @@ public class TelegramBot extends Thread{
     }
 
     public boolean kickChatMember(Object user, Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return false;
         }
 
@@ -369,8 +430,7 @@ public class TelegramBot extends Thread{
     }
 
     public boolean unbanChatMember(Object user, Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return false;
         }
 
@@ -388,8 +448,7 @@ public class TelegramBot extends Thread{
     }
 
     public boolean leaveChat(Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return false;
         }
 

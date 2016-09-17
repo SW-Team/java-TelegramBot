@@ -1,11 +1,11 @@
 package milk.telegram.type;
 
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import milk.telegram.type.message.Message;
 import milk.telegram.type.user.User;
 import org.json.JSONObject;
 
-public class CallbackQuery implements Idable<String>{
+public class CallbackQuery implements Identifier<String>{
 
     private final String id;
     private final User from;

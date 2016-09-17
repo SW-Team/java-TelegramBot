@@ -1,10 +1,10 @@
 package milk.telegram.type.file.media;
 
 import milk.telegram.type.file.photo.PhotoSize;
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import org.json.JSONObject;
 
-public class Video implements Idable<String>{
+public class Video implements Identifier<String>{
 
     private final String id;
 

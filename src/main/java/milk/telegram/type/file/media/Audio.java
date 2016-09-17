@@ -1,9 +1,9 @@
 package milk.telegram.type.file.media;
 
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import org.json.JSONObject;
 
-public class Audio implements Idable<String>{
+public class Audio implements Identifier<String>{
 
     private final String id;
 

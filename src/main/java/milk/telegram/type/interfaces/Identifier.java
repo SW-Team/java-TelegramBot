@@ -1,6 +1,6 @@
 package milk.telegram.type.interfaces;
 
-public interface Idable<T>{
+public interface Identifier<T>{
 
     T getId();
 

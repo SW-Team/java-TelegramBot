@@ -1,10 +1,10 @@
 package milk.telegram.type.user;
 
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import milk.telegram.type.interfaces.Usernamed;
 import org.json.JSONObject;
 
-public class User implements Idable<Integer>, Usernamed{
+public class User implements Identifier<Integer>, Usernamed{
 
     private int id;
 

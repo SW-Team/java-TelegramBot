@@ -1,12 +1,12 @@
 package milk.telegram.type.inline;
 
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import milk.telegram.type.file.Location;
 import milk.telegram.type.user.User;
 
 import org.json.JSONObject;
 
-public class InlineQuery implements Idable<String>{
+public class InlineQuery implements Identifier<String>{
 
     private final String id;
     private final User from;

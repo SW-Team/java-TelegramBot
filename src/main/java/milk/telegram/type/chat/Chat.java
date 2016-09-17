@@ -1,9 +1,9 @@
 package milk.telegram.type.chat;
 
 import org.json.JSONObject;
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 
-public abstract class Chat implements Idable<Long>{
+public abstract class Chat implements Identifier<Long>{
 
     private long id;
 

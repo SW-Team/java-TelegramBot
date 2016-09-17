@@ -1,9 +1,9 @@
 package milk.telegram.type.file.photo;
 
-import milk.telegram.type.interfaces.Idable;
+import milk.telegram.type.interfaces.Identifier;
 import org.json.JSONObject;
 
-public class Sticker implements Idable<String>{
+public class Sticker implements Identifier<String>{
 
     private final String file_id;
 
