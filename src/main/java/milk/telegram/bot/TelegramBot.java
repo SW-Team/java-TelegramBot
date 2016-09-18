@@ -349,10 +349,16 @@ public class TelegramBot extends Thread{
         return (TextMessage) Message.create(updateResponse("editMessageText", object));
     }
 
-    public TextMessage editMessageText(String text, Integer inline_message_id, String parse_mode, Boolean disable_web){
+    public TextMessage editMessageText(String text, Object inline, String parse_mode, Boolean disable_web){
+        /*if(inline instanceof Message){
+            inline = ((Message) inline).getId();
+        }else */if(!(inline instanceof Number)){
+            return null;
+        }
+
         JSONObject object = new JSONObject();
         object.put("text", text);
-        object.put("inline_message_id", inline_message_id);
+        object.put("inline_message_id", inline);
         if(parse_mode != null) object.put("parse_mode", parse_mode);
         if(disable_web != null) object.put("disable_web_page_preview", disable_web);
 
@@ -377,10 +383,16 @@ public class TelegramBot extends Thread{
         return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
     }
 
-    public TextMessage editMessageCaption(String caption, Object inline_message_id){
+    public TextMessage editMessageCaption(String caption, Object inline){
+        /*if(inline instanceof Message){
+            inline = ((Message) inline).getId();
+        }else */if(!(inline instanceof Number)){
+            return null;
+        }
+
         JSONObject object = new JSONObject();
         object.put("caption", caption);
-        object.put("inline_message_id", inline_message_id);
+        object.put("inline_message_id", inline);
         return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
     }
     /** editMethod **/
