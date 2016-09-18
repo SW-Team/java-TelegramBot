@@ -77,7 +77,7 @@ public class TelegramBot extends Thread{
         return null;
     }
 
-    private static Object fixChat(Object chat){
+    public static Object fixChat(Object chat){
         if(chat instanceof Identifier){
             chat = chat instanceof Channel ? "@" + ((Usernamed) chat).getUsername() : ((Identifier) chat).getId();
         }
@@ -156,8 +156,7 @@ public class TelegramBot extends Thread{
 
     /** sendMethod */
     public void sendChatAction(String action, Object chat){
-        chat = fixChat(chat);
-        if(chat == null){
+        if((chat = fixChat(chat)) == null){
             return;
         }
 
