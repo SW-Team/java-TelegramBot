@@ -267,7 +267,7 @@ public class TelegramBot extends Thread{
         return ChatMember.create(updateResponse("getChatMember", object));
     }
 
-    public Number getChatMembersCount(Object chat){
+    public Integer getChatMembersCount(Object chat){
         if((chat = fixChat(chat)) == null){
             return null;
         }
