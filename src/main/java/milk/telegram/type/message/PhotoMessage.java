@@ -1,6 +1,6 @@
 package milk.telegram.type.message;
 
-import milk.telegram.type.interfaces.Textable;
+import milk.telegram.type.Textable;
 import milk.telegram.type.file.photo.PhotoSize;
 import org.json.JSONObject;
 
@@ -24,6 +24,10 @@ public class PhotoMessage extends Message implements Textable{
 
     public ArrayList<PhotoSize> getPhotoList(){
         return this.photo;
+    }
+
+    public String getName(){
+        return "사진";
     }
 
 }

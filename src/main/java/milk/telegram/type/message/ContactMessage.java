@@ -16,4 +16,8 @@ public class ContactMessage extends Message{
         return this.contact;
     }
 
+    public String getName(){
+        return "연락처";
+    }
+
 }

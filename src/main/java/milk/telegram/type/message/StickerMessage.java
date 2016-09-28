@@ -17,4 +17,8 @@ public class StickerMessage extends Message{
         return this.sticker;
     }
 
+    public String getName(){
+        return "스티커";
+    }
+
 }

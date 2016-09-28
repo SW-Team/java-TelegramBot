@@ -16,4 +16,8 @@ public class VenueMessage extends Message{
         return this.venue;
     }
 
+    public String getName(){
+        return "Venue";
+    }
+
 }

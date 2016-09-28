@@ -1,4 +1,4 @@
-package milk.telegram.type.interfaces;
+package milk.telegram.type;
 
 import org.json.JSONObject;
 

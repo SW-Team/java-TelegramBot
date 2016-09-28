@@ -1,7 +1,7 @@
 package milk.telegram.type.chat;
 
-import milk.telegram.type.interfaces.Titled;
-import milk.telegram.type.interfaces.Usernamed;
+import milk.telegram.type.Titled;
+import milk.telegram.type.Usernamed;
 import org.json.JSONObject;
 
 public class Channel extends Chat implements Titled, Usernamed{

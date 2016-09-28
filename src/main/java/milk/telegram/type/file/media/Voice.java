@@ -1,6 +1,6 @@
 package milk.telegram.type.file.media;
 
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 import org.json.JSONObject;
 
 public class Voice implements Identifier<String>{

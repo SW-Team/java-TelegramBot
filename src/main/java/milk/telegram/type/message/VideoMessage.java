@@ -1,6 +1,6 @@
 package milk.telegram.type.message;
 
-import milk.telegram.type.interfaces.Textable;
+import milk.telegram.type.Textable;
 import milk.telegram.type.file.media.Video;
 import org.json.JSONObject;
 
@@ -21,6 +21,10 @@ public class VideoMessage extends Message implements Textable{
 
     public String getText(){
         return this.caption;
+    }
+
+    public String getName(){
+        return "비디오";
     }
 
 }

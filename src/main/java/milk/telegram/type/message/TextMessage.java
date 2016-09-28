@@ -1,6 +1,6 @@
 package milk.telegram.type.message;
 
-import milk.telegram.type.interfaces.Textable;
+import milk.telegram.type.Textable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -29,6 +29,10 @@ public class TextMessage extends Message implements Textable{
 
     public ArrayList<MessageEntity> getEntities(){
         return this.entities;
+    }
+
+    public String getName(){
+        return "문자 메시지";
     }
 
 }

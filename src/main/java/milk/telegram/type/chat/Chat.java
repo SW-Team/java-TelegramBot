@@ -1,7 +1,7 @@
 package milk.telegram.type.chat;
 
 import org.json.JSONObject;
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 
 public abstract class Chat implements Identifier<Long>{
 

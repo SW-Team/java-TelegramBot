@@ -1,4 +1,4 @@
-package milk.telegram.type.interfaces;
+package milk.telegram.type;
 
 public interface Usernamed{
 

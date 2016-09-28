@@ -1,6 +1,6 @@
 package milk.telegram.type.file;
 
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 import org.json.JSONObject;
 
 public class File implements Identifier<String>{

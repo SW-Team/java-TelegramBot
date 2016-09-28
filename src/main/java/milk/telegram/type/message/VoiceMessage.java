@@ -16,4 +16,8 @@ public class VoiceMessage extends Message{
         return this.voice;
     }
 
+    public String getName(){
+        return "음성 메시지";
+    }
+
 }

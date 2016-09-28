@@ -1,6 +1,6 @@
 package milk.telegram.type.chat;
 
-import milk.telegram.type.interfaces.Usernamed;
+import milk.telegram.type.Usernamed;
 import org.json.JSONObject;
 
 public class PrivateChat extends Chat implements Usernamed{

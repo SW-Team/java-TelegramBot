@@ -4,10 +4,10 @@ import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
-import milk.telegram.type.interfaces.Usernamed;
+import milk.telegram.type.Usernamed;
 import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 import milk.telegram.type.message.StickerMessage;
 import milk.telegram.type.message.TextMessage;
 import milk.telegram.type.file.photo.Sticker;
@@ -396,6 +396,23 @@ public class TelegramBot extends Thread{
         return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
     }
     /** editMethod **/
+
+    /** answerMethod **/
+    public boolean answerCallbackQuery(Object query_id, String text, Boolean show_alert){
+        /*if(query_id instanceof Message){
+            query_id = ((Message) inline).getId();
+        }else */if(!(query_id instanceof Number)){
+            return false;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("text", text);
+        object.put("show_alert", show_alert);
+        object.put("callback_query_id", query_id);
+        JSONObject ob = updateResponse("answerCallbackQuery", object);
+        return ob != null && ob.optBoolean("result");
+    }
+    /** answerMethod **/
 
     /** anotherMethod */
     public Message forwardMessage(Object message, Object chat, Object chat_from){

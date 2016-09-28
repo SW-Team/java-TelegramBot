@@ -15,4 +15,10 @@ public class AudioMessage extends Message{
     public Audio getAudio(){
         return audio;
     }
+
+    @Override
+    public String getName(){
+        return "음악";
+    }
+
 }

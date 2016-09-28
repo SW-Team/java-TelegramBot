@@ -1,7 +1,7 @@
 package milk.telegram.type.user;
 
-import milk.telegram.type.interfaces.Identifier;
-import milk.telegram.type.interfaces.Usernamed;
+import milk.telegram.type.Identifier;
+import milk.telegram.type.Usernamed;
 import org.json.JSONObject;
 
 public class User implements Identifier<Integer>, Usernamed{

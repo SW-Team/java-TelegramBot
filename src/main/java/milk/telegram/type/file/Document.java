@@ -1,7 +1,7 @@
 package milk.telegram.type.file;
 
 import milk.telegram.type.file.photo.PhotoSize;
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 import org.json.JSONObject;
 
 public class Document implements Identifier<String>{

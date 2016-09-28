@@ -1,6 +1,6 @@
 package milk.telegram.type.message;
 
-import milk.telegram.type.interfaces.Textable;
+import milk.telegram.type.Textable;
 import milk.telegram.type.file.Document;
 import org.json.JSONObject;
 
@@ -21,6 +21,10 @@ public class DocumentMessage extends Message implements Textable{
 
     public Document getDocument(){
         return this.document;
+    }
+
+    public String getName(){
+        return "파일";
     }
 
 }

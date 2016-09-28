@@ -16,4 +16,8 @@ public class LocationMessage extends Message{
         return this.location;
     }
 
+    public String getName(){
+        return "위치정보";
+    }
+
 }

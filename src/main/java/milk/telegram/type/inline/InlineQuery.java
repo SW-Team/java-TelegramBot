@@ -1,6 +1,6 @@
 package milk.telegram.type.inline;
 
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 import milk.telegram.type.file.Location;
 import milk.telegram.type.user.User;
 

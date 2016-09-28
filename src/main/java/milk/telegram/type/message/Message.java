@@ -1,8 +1,9 @@
 package milk.telegram.type.message;
 
 import milk.telegram.type.chat.Chat;
-import milk.telegram.type.interfaces.Identifier;
+import milk.telegram.type.Identifier;
 import milk.telegram.type.user.User;
+
 import org.json.JSONObject;
 
 public class Message implements Identifier<Integer>{
@@ -21,7 +22,7 @@ public class Message implements Identifier<Integer>{
     protected Message(JSONObject object){
         this.message_id = object.getInt("message_id");
         this.date = object.getInt("date");
-        this.from = User.create(object.getJSONObject("from"));
+        this.from = User.create(object.optJSONObject("from"));
         this.chat = Chat.create(object.getJSONObject("chat"));
 
         this.reply_message = Message.create(object.optJSONObject("reply_to_message"));
@@ -98,6 +99,10 @@ public class Message implements Identifier<Integer>{
 
     public Chat getForwardChat(){
         return forward_from_chat;
+    }
+
+    public String getName(){
+        return "메시지";
     }
 
 }
