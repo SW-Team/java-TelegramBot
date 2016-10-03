@@ -1,5 +1,6 @@
-package milk.telegram.type;
+package milk.telegram.callback;
 
+import milk.telegram.type.Identifier;
 import milk.telegram.type.message.Message;
 import milk.telegram.type.user.User;
 import org.json.JSONObject;

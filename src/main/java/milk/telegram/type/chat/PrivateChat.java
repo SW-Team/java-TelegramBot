@@ -29,4 +29,8 @@ public class PrivateChat extends Chat implements Usernamed{
         return this.username;
     }
 
+    public String getFullName(){
+        return (this.getLastName() == null ? "" : this.getLastName() + " ") + this.getFirstName();
+    }
+
 }

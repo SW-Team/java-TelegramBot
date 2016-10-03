@@ -1,6 +1,6 @@
 package milk.telegram.update;
 
-import milk.telegram.type.CallbackQuery;
+import milk.telegram.callback.CallbackQuery;
 import milk.telegram.type.inline.ChosenInlineResult;
 import milk.telegram.type.inline.InlineQuery;
 import milk.telegram.type.Identifier;

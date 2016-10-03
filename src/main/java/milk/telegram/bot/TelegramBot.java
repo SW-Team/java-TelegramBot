@@ -1,5 +1,6 @@
 package milk.telegram.bot;
 
+import milk.telegram.callback.CallbackQuery;
 import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
@@ -399,9 +400,9 @@ public class TelegramBot extends Thread{
 
     /** answerMethod **/
     public boolean answerCallbackQuery(Object query_id, String text, Boolean show_alert){
-        /*if(query_id instanceof Message){
-            query_id = ((Message) inline).getId();
-        }else */if(!(query_id instanceof Number)){
+        if(query_id instanceof CallbackQuery){
+            query_id = ((CallbackQuery) query_id).getId();
+        }else if(!(query_id instanceof String)){
             return false;
         }
 
