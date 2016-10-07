@@ -19,7 +19,7 @@ public class CallbackQuery implements Identifier<String>{
         this.from = User.create(object.getJSONObject("from"));
         this.message = Message.create(object.optJSONObject("message"));
 
-        this.data = object.getString("data");
+        this.data = object.optString("data", null);
         this.inline_message_id = object.optString("inline_message_id");
     }
 

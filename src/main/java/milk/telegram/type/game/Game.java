@@ -21,15 +21,14 @@ public class Game implements Titled, Textable{
     private ArrayList<MessageEntity> text_entities = new ArrayList<>();
 
     private Game(JSONObject object){
-        this.text = object.optString("text", null);
-
         this.title = object.getString("title");
         this.description = object.getString("description");
-
-        this.animation = Animation.create(object.optJSONObject("animation"));
-
-        JSONArray array = object.optJSONArray("text_entities");
         object.getJSONArray("photo").forEach(obj -> this.photo.add(PhotoSize.create((JSONObject) obj)));
+
+
+        this.text = object.optString("text", null);
+        JSONArray array = object.optJSONArray("text_entities");
+        this.animation = Animation.create(object.optJSONObject("animation"));
         if(array != null) array.forEach(obj -> this.text_entities.add(MessageEntity.create((JSONObject) obj)));
     }
 
