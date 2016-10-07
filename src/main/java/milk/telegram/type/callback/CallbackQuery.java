@@ -14,6 +14,8 @@ public class CallbackQuery implements Identifier<String>{
     private final String data;
     private final String inline_message_id;
 
+    private final String game_short_name;
+
     private CallbackQuery(JSONObject object){
         this.id = object.getString("id");
         this.from = User.create(object.getJSONObject("from"));
@@ -21,6 +23,8 @@ public class CallbackQuery implements Identifier<String>{
 
         this.data = object.optString("data", null);
         this.inline_message_id = object.optString("inline_message_id");
+
+        this.game_short_name = object.optString("game_short_name", null);
     }
 
     public static CallbackQuery create(JSONObject object){
@@ -50,4 +54,7 @@ public class CallbackQuery implements Identifier<String>{
         return message;
     }
 
+    public String getGameShortName(){
+        return game_short_name;
+    }
 }

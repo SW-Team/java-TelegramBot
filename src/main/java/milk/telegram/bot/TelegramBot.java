@@ -183,6 +183,12 @@ public class TelegramBot extends Thread{
             return null;
         }
 
+        if(game instanceof CallbackQuery){
+            game = ((CallbackQuery) reply_message).getGameShortName();
+        }else if(game != null && !(game instanceof String)){
+            return null;
+        }
+
         if(reply_message instanceof Message){
             reply_message = ((Message) reply_message).getId();
         }else if(reply_message != null && !(reply_message instanceof Number)){
