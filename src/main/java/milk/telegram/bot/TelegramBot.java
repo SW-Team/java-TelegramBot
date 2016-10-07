@@ -1,11 +1,12 @@
 package milk.telegram.bot;
 
-import milk.telegram.callback.CallbackQuery;
+import milk.telegram.type.callback.CallbackQuery;
 import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
 import milk.telegram.type.Usernamed;
+import milk.telegram.type.reply.ReplyMarkup;
 import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
 import milk.telegram.type.Identifier;
@@ -175,15 +176,19 @@ public class TelegramBot extends Thread{
         return sendMessage(text, chat, reply_message, null);
     }
 
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode){
-        return sendMessage(text, chat, reply_message, parse_mode, null);
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup){
+        return sendMessage(text, chat, reply_message, reply_markup, null);
     }
 
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web){
-        return sendMessage(text, chat, reply_message, parse_mode, disable_web, null);
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup, String parse_mode){
+        return sendMessage(text, chat, reply_message, reply_markup, parse_mode, null);
     }
 
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, String parse_mode, Boolean disable_web, Boolean disable_noti){
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup, String parse_mode, Boolean disable_web){
+        return sendMessage(text, chat, reply_message, reply_markup, parse_mode, disable_web, null);
+    }
+
+    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup, String parse_mode, Boolean disable_web, Boolean disable_noti){
         if((chat = fixChat(chat)) == null){
             return null;
         }
@@ -201,6 +206,7 @@ public class TelegramBot extends Thread{
         if(disable_noti != null) object.put("disable_notification", disable_noti);
         if(reply_message != null) object.put("reply_to_message_id", reply_message);
         if(disable_web != null) object.put("disable_web_page_preview", disable_web);
+        if(reply_markup != null) object.put("reply_markup", reply_markup.getJsonData());
 
         return (TextMessage) Message.create(updateResponse("sendMessage", object));
     }

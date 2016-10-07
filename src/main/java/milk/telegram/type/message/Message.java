@@ -19,6 +19,8 @@ public class Message implements Identifier<Integer>{
     private final User forward_from;
     private final Chat forward_from_chat;
 
+    private final JSONObject object;
+
     protected Message(JSONObject object){
         this.message_id = object.getInt("message_id");
         this.date = object.getInt("date");
@@ -29,6 +31,8 @@ public class Message implements Identifier<Integer>{
 
         this.forward_from = User.create(object.optJSONObject("forward_from"));
         this.forward_from_chat = Chat.create(object.optJSONObject("forward_from_chat"));
+
+        this.object = object;
     }
 
     public static Message create(JSONObject object){
@@ -63,6 +67,10 @@ public class Message implements Identifier<Integer>{
             return new VoiceMessage(object);
         }
         return new Message(object);
+    }
+
+    public JSONObject getObject(){
+        return object;
     }
 
     public Integer getId(){
@@ -104,5 +112,4 @@ public class Message implements Identifier<Integer>{
     public String getName(){
         return "메시지";
     }
-
 }

@@ -1,6 +1,5 @@
 package milk.telegram.type.message;
 
-import milk.telegram.type.Textable;
 import milk.telegram.type.file.Document;
 import org.json.JSONObject;
 

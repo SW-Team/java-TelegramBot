@@ -1,6 +1,5 @@
 package milk.telegram.type.chat;
 
-import milk.telegram.type.Titled;
 import milk.telegram.type.Usernamed;
 import org.json.JSONObject;
 

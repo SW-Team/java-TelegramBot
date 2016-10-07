@@ -1,6 +1,5 @@
 package milk.telegram.type.message;
 
-import milk.telegram.type.Textable;
 import milk.telegram.type.file.photo.PhotoSize;
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package milk.telegram.callback;
+package milk.telegram.type.callback;
 
 import milk.telegram.type.Identifier;
 import milk.telegram.type.message.Message;

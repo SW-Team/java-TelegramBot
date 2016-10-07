@@ -1,12 +1,11 @@
-package milk.telegram.reply;
+package milk.telegram.type.reply;
 
-import milk.telegram.type.JsonData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ReplyKeyboardMarkup implements JsonData{
+public class ReplyKeyboardMarkup implements ReplyMarkup{
 
-    private JSONArray keyboard; //Array of Array of KeyboardButton(JSON, Not Object)
+    private JSONArray keyboard; //Array of Array of KeyboardButton(JSONObject, Not API's Class)
 
     private Boolean selective;
     private Boolean resize_keyboard;

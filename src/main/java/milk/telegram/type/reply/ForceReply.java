@@ -1,17 +1,17 @@
-package milk.telegram.reply;
+package milk.telegram.type.reply;
 
 import milk.telegram.type.JsonData;
 import org.json.JSONObject;
 
-public class ReplyKeyboardHide implements JsonData{
+public class ForceReply implements ReplyMarkup{
 
     private Boolean selective;
 
-    public ReplyKeyboardHide(){
+    public ForceReply(){
         this.selective = null;
     }
 
-    public ReplyKeyboardHide(boolean selective){
+    public ForceReply(boolean selective){
         this.selective = selective;
     }
 
@@ -30,5 +30,4 @@ public class ReplyKeyboardHide implements JsonData{
         if(this.selective != null) object.put("selective", this.selective);
         return null;
     }
-
 }
