@@ -1,4 +1,4 @@
-package milk.telegram.type.message;
+package milk.telegram.type;
 
 public interface Textable{
 

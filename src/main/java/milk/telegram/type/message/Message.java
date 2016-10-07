@@ -45,7 +45,9 @@ public class Message implements Identifier<Integer>{
             }
         }
 
-        if(object.has("audio")){
+        if(object.has("game")){
+            return new GameMessage(object);
+        }else if(object.has("audio")){
             return new AudioMessage(object);
         }else if(object.has("contact")){
             return new ContactMessage(object);

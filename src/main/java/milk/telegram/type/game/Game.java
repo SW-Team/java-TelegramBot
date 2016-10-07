@@ -3,7 +3,7 @@ package milk.telegram.type.game;
 import milk.telegram.type.Titled;
 import milk.telegram.type.file.photo.PhotoSize;
 import milk.telegram.type.message.MessageEntity;
-import milk.telegram.type.message.Textable;
+import milk.telegram.type.Textable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

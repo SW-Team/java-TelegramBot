@@ -11,4 +11,13 @@ public class GameMessage extends Message{
         super(object);
         this.game = Game.create(object.getJSONObject("game"));
     }
+
+    public Game getGame(){
+        return game;
+    }
+
+    public String getName(){
+        return "게임";
+    }
+
 }

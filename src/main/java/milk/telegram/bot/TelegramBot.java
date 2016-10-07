@@ -6,8 +6,9 @@ import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
 import milk.telegram.type.Usernamed;
-import milk.telegram.type.ReplyMarkup;
+import milk.telegram.type.reply.ReplyMarkup;
 import milk.telegram.type.game.GameHighScore;
+import milk.telegram.type.reply.InlineKeyboardMarkup;
 import milk.telegram.type.message.GameMessage;
 import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
@@ -173,11 +174,11 @@ public class TelegramBot extends Thread{
         return sendGame(game, chat, reply_message, null);
     }
 
-    public GameMessage sendGame(Object game, Object chat, Object reply_message, ReplyMarkup reply_markup){
+    public GameMessage sendGame(Object game, Object chat, Object reply_message, InlineKeyboardMarkup reply_markup){
         return sendGame(game, chat, reply_message, reply_markup, null);
     }
 
-    public GameMessage sendGame(Object game, Object chat, Object reply_message, ReplyMarkup reply_markup, Boolean disable_noti){
+    public GameMessage sendGame(Object game, Object chat, Object reply_message, InlineKeyboardMarkup reply_markup, Boolean disable_noti){
         if((chat = fixChat(chat)) == null){
             return null;
         }

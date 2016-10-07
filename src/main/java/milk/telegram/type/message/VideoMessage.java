@@ -1,5 +1,6 @@
 package milk.telegram.type.message;
 
+import milk.telegram.type.Textable;
 import milk.telegram.type.file.media.Video;
 import org.json.JSONObject;
 
