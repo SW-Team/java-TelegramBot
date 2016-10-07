@@ -1,6 +1,6 @@
 package milk.telegram.type.reply;
 
-import milk.telegram.type.JsonData;
+import milk.telegram.type.ReplyMarkup;
 import org.json.JSONObject;
 
 public class ReplyKeyboardHide implements ReplyMarkup{

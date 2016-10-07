@@ -1,5 +1,6 @@
 package milk.telegram.type.reply;
 
+import milk.telegram.type.ReplyMarkup;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

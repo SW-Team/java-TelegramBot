@@ -6,7 +6,9 @@ import milk.telegram.type.chat.Channel;
 import milk.telegram.type.chat.Chat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
 import milk.telegram.type.Usernamed;
-import milk.telegram.type.reply.ReplyMarkup;
+import milk.telegram.type.ReplyMarkup;
+import milk.telegram.type.game.GameHighScore;
+import milk.telegram.type.message.GameMessage;
 import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
 import milk.telegram.type.Identifier;
@@ -144,6 +146,7 @@ public class TelegramBot extends Thread{
         this.token = token;
     }
 
+    /** setMethod **/
     public void setLimit(int value){
         this.limit = Math.max(1, Math.min(100, value));
     }
@@ -156,7 +159,45 @@ public class TelegramBot extends Thread{
         this.handler = handler;
     }
 
+    public void setGameScore(Object user, long score){
+        //TODO: 개 귀찮음
+    }
+    /** setMethod **/
+
     /** sendMethod */
+    public GameMessage sendGame(Object game, Object chat){
+        return sendGame(game, chat, null);
+    }
+
+    public GameMessage sendGame(Object game, Object chat, Object reply_message){
+        return sendGame(game, chat, reply_message, null);
+    }
+
+    public GameMessage sendGame(Object game, Object chat, Object reply_message, ReplyMarkup reply_markup){
+        return sendGame(game, chat, reply_message, reply_markup, null);
+    }
+
+    public GameMessage sendGame(Object game, Object chat, Object reply_message, ReplyMarkup reply_markup, Boolean disable_noti){
+        if((chat = fixChat(chat)) == null){
+            return null;
+        }
+
+        if(reply_message instanceof Message){
+            reply_message = ((Message) reply_message).getId();
+        }else if(reply_message != null && !(reply_message instanceof Number)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("chat_id", chat);
+        object.put("game_short_name", game);
+        if(disable_noti != null) object.put("disable_notification", disable_noti);
+        if(reply_message != null) object.put("reply_to_message_id", reply_message);
+        if(reply_markup != null) object.put("reply_markup", reply_markup.getJsonData());
+
+        return (GameMessage) Message.create(updateResponse("sendGame", object));
+    }
+
     public void sendChatAction(String action, Object chat){
         if((chat = fixChat(chat)) == null){
             return;
@@ -300,6 +341,16 @@ public class TelegramBot extends Thread{
             for(Object obj : ar) array.add(ChatMember.create((JSONObject) obj));
             return array;
         }
+        return null;
+    }
+
+    public GameHighScore getGameHighScores(Object chat, Object user, Object message){
+        //TODO: 개 귀찮아
+        return null;
+    }
+
+    public GameHighScore getGameHighScores(Object user, Object inline){
+        //TODO: 개 귀찮아
         return null;
     }
 

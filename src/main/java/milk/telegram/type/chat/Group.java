@@ -1,5 +1,6 @@
 package milk.telegram.type.chat;
 
+import milk.telegram.type.Titled;
 import org.json.JSONObject;
 
 public class Group extends Chat implements Titled{

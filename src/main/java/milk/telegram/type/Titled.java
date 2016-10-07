@@ -1,4 +1,4 @@
-package milk.telegram.type.chat;
+package milk.telegram.type;
 
 public interface Titled{
 
