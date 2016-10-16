@@ -6,7 +6,7 @@ Author: **[SW-Team](https://github.com/SW-Team)**
 * org.json - JSON-LICENSE
   
 ##Usage
-### initializing bot
+### Initializing & Start Bot
 ```java
 TelegramBot bot = new TelegramBot("Bot::TOKEN");
 bot.setHandler(list -> list.forEach(update -> {
@@ -15,12 +15,12 @@ bot.setHandler(list -> list.forEach(update -> {
 }));
 bot.start();
 ```
-### send message
+### Send Message
 ```java
 (TextMessage)
 TextMessage message = new TextMessageSender(bot).setText("Hello, World!").setChatId("@username").send();
 ```
-### get data
+### Get Data
 ```java
 (Chat)
 Chat chat = new ChatGetter(bot).getChatId("@username").send();
