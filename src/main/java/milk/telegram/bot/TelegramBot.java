@@ -3,19 +3,15 @@ package milk.telegram.bot;
 import milk.telegram.type.callback.CallbackQuery;
 import milk.telegram.handler.Handler;
 import milk.telegram.type.chat.Channel;
-import milk.telegram.type.chat.Chat;
 import milk.telegram.type.file.photo.UserProfilePhotos;
 import milk.telegram.type.Usernamed;
-import milk.telegram.type.reply.ReplyMarkup;
 import milk.telegram.type.game.GameHighScore;
 import milk.telegram.type.reply.InlineKeyboardMarkup;
 import milk.telegram.type.message.GameMessage;
 import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
 import milk.telegram.type.Identifier;
-import milk.telegram.type.message.StickerMessage;
 import milk.telegram.type.message.TextMessage;
-import milk.telegram.type.file.photo.Sticker;
 import milk.telegram.type.user.User;
 import milk.telegram.type.message.Message;
 
@@ -269,16 +265,6 @@ public class TelegramBot extends Thread{
     /** sendMethod */
 
     /** getMethod */
-    public Chat getChat(Object chat){
-        if(!(chat instanceof String || chat instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        return Chat.create(updateResponse("getChat", object));
-    }
-
     public ChatMember getChatMember(Object chat, Object user){
         if((chat = fixChat(chat)) == null){
             return null;

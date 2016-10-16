@@ -1,4 +1,4 @@
-package milk.telegram.getter;
+package milk.telegram.send.getter;
 
 import milk.telegram.bot.TelegramBot;
 
@@ -18,5 +18,7 @@ public abstract class Getter{
         this.bot = bot;
         return this;
     }
+
+    public abstract Object send();
 
 }

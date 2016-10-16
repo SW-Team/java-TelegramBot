@@ -1,4 +1,4 @@
-package milk.telegram.sender;
+package milk.telegram.send.message;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.message.Message;
@@ -14,19 +14,6 @@ public class TextMessageSender extends MessageSender{
 
     public TextMessageSender(TelegramBot bot){
         super(bot);
-    }
-
-    public TextMessage send(){
-        JSONObject object = new JSONObject();
-        object.put("text", text);
-        object.put("chat_id", chat_id);
-        object.put("disable_notification", disable_notification);
-        object.put("disable_web_page_preview", disable_web_page_preview);
-
-        if(parse_mode != null) object.put("parse_mode", parse_mode);
-        if(message_id != -1) object.put("reply_to_message_id", message_id);
-
-        return (TextMessage) Message.create(bot.updateResponse("sendMessage", object));
     }
 
     public String getText(){
@@ -45,6 +32,19 @@ public class TextMessageSender extends MessageSender{
     public TextMessageSender setDisableWebPagePreview(boolean value){
         this.disable_web_page_preview = value;
         return this;
+    }
+
+    public TextMessage send(){
+        JSONObject object = new JSONObject();
+        object.put("text", text);
+        object.put("chat_id", chat_id);
+        object.put("disable_notification", disable_notification);
+        object.put("disable_web_page_preview", disable_web_page_preview);
+
+        if(parse_mode != null) object.put("parse_mode", parse_mode);
+        if(message_id != -1) object.put("reply_to_message_id", message_id);
+
+        return (TextMessage) Message.create(bot.updateResponse("sendMessage", object));
     }
 
 }

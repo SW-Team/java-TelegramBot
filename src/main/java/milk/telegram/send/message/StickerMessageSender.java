@@ -1,4 +1,4 @@
-package milk.telegram.sender;
+package milk.telegram.send.message;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.file.photo.Sticker;
