@@ -22,24 +22,29 @@ public class Contact{
     public static Contact create(JSONObject object){
         if(object == null){
             return null;
+        }else if(object.has("result")){
+            object = object.optJSONObject("result");
+            if(object == null || object.length() < 1){
+                return null;
+            }
         }
         return new Contact(object);
     }
 
-    public String getPhoneNumber(){
-        return phone_number;
-    }
-
-    public String getFirstName(){
-        return first_name;
+    public Integer getUserId(){
+        return user_id;
     }
 
     public String getLastName(){
         return last_name;
     }
 
-    public Integer getUserId(){
-        return user_id;
+    public String getFirstName(){
+        return first_name;
+    }
+
+    public String getPhoneNumber(){
+        return phone_number;
     }
 
 }

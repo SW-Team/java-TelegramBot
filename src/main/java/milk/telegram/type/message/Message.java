@@ -40,7 +40,7 @@ public class Message implements Identifier<Integer>{
             return null;
         }else if(object.has("result")){
             object = object.optJSONObject("result");
-            if(object.length() < 1){
+            if(object == null || object.length() < 1){
                 return null;
             }
         }
@@ -114,4 +114,10 @@ public class Message implements Identifier<Integer>{
     public String getName(){
         return "메시지";
     }
+
+    @Override
+    public String toString(){
+        return this.getName();
+    }
+
 }

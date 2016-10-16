@@ -139,6 +139,10 @@ public class TelegramBot extends Thread{
         return this.timeout;
     }
 
+    public String getToken(){
+        return token;
+    }
+
     public void setToken(String token){
         if(token.length() != 45){
             return;
@@ -160,8 +164,55 @@ public class TelegramBot extends Thread{
         this.handler = handler;
     }
 
-    public void setGameScore(Object user, long score){
-        //TODO: 개 귀찮음
+    public GameMessage setGameScore(long score, Object user, Object chat, Object message){
+        if(message instanceof Message){
+            chat = ((Message) message).getChat().getId();
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Number) && !(message instanceof String)){
+            return null;
+        }
+
+        if(user instanceof User){
+            user = ((User) user).getId();
+        }else if(user != null && !(user instanceof Number)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("score", score);
+        object.put("user_id", user);
+        object.put("chat_id", chat);
+        object.put("message_id", message);
+
+        return (GameMessage) Message.create(updateResponse("setGameScore", object));
+    }
+
+    public GameMessage setGameScore(long score, Object user, Object message){
+        Object chat = null;
+        if(message instanceof Message){
+            chat = ((Message) message).getChat().getId();
+            message = ((Message) message).getId();
+        }else if(message != null && !(message instanceof Number) && !(message instanceof String)){
+            return null;
+        }
+
+        if(user instanceof User){
+            user = ((User) user).getId();
+        }else if(user != null && !(user instanceof Number)){
+            return null;
+        }
+
+        JSONObject object = new JSONObject();
+        object.put("score", score);
+        object.put("user_id", user);
+        if(chat != null){
+            object.put("chat_id", chat);
+            object.put("message_id", message);
+        }else{
+            object.put("inline_message_id", message);
+        }
+
+        return (GameMessage) Message.create(updateResponse("setGameScore", object));
     }
     /** setMethod **/
 
@@ -214,83 +265,6 @@ public class TelegramBot extends Thread{
         object.put("chat_id", chat);
         object.put("action", action);
         this.updateResponse("sendChatAction", object);
-    }
-
-    public TextMessage sendMessage(String text, Object chat){
-        return sendMessage(text, chat, null);
-    }
-
-    public TextMessage sendMessage(String text, Object chat, Object reply_message){
-        return sendMessage(text, chat, reply_message, null);
-    }
-
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup){
-        return sendMessage(text, chat, reply_message, reply_markup, null);
-    }
-
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup, String parse_mode){
-        return sendMessage(text, chat, reply_message, reply_markup, parse_mode, null);
-    }
-
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup, String parse_mode, Boolean disable_web){
-        return sendMessage(text, chat, reply_message, reply_markup, parse_mode, disable_web, null);
-    }
-
-    public TextMessage sendMessage(String text, Object chat, Object reply_message, ReplyMarkup reply_markup, String parse_mode, Boolean disable_web, Boolean disable_noti){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        if(reply_message instanceof Message){
-            reply_message = ((Message) reply_message).getId();
-        }else if(reply_message != null && !(reply_message instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("text", text);
-        object.put("chat_id", chat);
-        if(parse_mode != null) object.put("parse_mode", parse_mode);
-        if(disable_noti != null) object.put("disable_notification", disable_noti);
-        if(reply_message != null) object.put("reply_to_message_id", reply_message);
-        if(disable_web != null) object.put("disable_web_page_preview", disable_web);
-        if(reply_markup != null) object.put("reply_markup", reply_markup.getJsonData());
-
-        return (TextMessage) Message.create(updateResponse("sendMessage", object));
-    }
-
-    public StickerMessage sendSticker(Object sticker, Object chat){
-        return sendSticker(sticker, chat, null);
-    }
-
-    public StickerMessage sendSticker(Object sticker, Object chat, Object reply_message){
-        return sendSticker(sticker, chat, reply_message, null);
-    }
-
-    public StickerMessage sendSticker(Object sticker, Object chat, Object reply_message, Boolean disable_noti){
-        if(sticker instanceof Sticker){
-            sticker = ((Sticker) sticker).getId();
-        }else if(!(sticker instanceof String)){
-            return null;
-        }
-
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        if(reply_message instanceof Message){
-            reply_message = ((Message) reply_message).getId();
-        }else if(reply_message != null && !(reply_message instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("sticker", sticker);
-        if(disable_noti != null) object.put("disable_notification", disable_noti);
-        if(reply_message != null) object.put("reply_to_message_id", reply_message);
-
-        return (StickerMessage) Message.create(updateResponse("sendSticker", object));
     }
     /** sendMethod */
 
@@ -414,13 +388,7 @@ public class TelegramBot extends Thread{
         return (TextMessage) Message.create(updateResponse("editMessageText", object));
     }
 
-    public TextMessage editMessageText(String text, Object inline, String parse_mode, Boolean disable_web){
-        /*if(inline instanceof Message){
-            inline = ((Message) inline).getId();
-        }else */if(!(inline instanceof Number)){
-            return null;
-        }
-
+    public TextMessage editMessageText(String text, String inline, String parse_mode, Boolean disable_web){
         JSONObject object = new JSONObject();
         object.put("text", text);
         object.put("inline_message_id", inline);
@@ -448,13 +416,7 @@ public class TelegramBot extends Thread{
         return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
     }
 
-    public TextMessage editMessageCaption(String caption, Object inline){
-        /*if(inline instanceof Message){
-            inline = ((Message) inline).getId();
-        }else */if(!(inline instanceof Number)){
-            return null;
-        }
-
+    public TextMessage editMessageCaption(String caption, String inline){
         JSONObject object = new JSONObject();
         object.put("caption", caption);
         object.put("inline_message_id", inline);
