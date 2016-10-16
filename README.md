@@ -11,7 +11,7 @@ Author: **[SW-Team](https://github.com/SW-Team)**
 TelegramBot bot = new TelegramBot("Bot::TOKEN");
 bot.setHandler(list -> list.forEach(update -> {
     Message message = update.getMessage();
-    //NOW YOU USE IT!
+    //...etc
 }));
 bot.start();
 ```
