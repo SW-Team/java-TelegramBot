@@ -39,6 +39,21 @@ public class ContactSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public ContactSender setChatId(Object chat_id){
+        return (ContactSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public ContactSender setMessageId(Object message_id){
+        return (ContactSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public ContactSender setDisableNotification(boolean value){
+        return (ContactSender) super.setDisableNotification(value);
+    }
+
     public ContactMessage send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);

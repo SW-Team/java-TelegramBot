@@ -77,6 +77,21 @@ public class VenueSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public VenueSender setChatId(Object chat_id){
+        return (VenueSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public VenueSender setMessageId(Object message_id){
+        return (VenueSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public VenueSender setDisableNotification(boolean value){
+        return (VenueSender) super.setDisableNotification(value);
+    }
+
     public VenueMessage send(){
         JSONObject object = new JSONObject();
         object.put("title", title);

@@ -38,6 +38,21 @@ public class DocumentSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public DocumentSender setChatId(Object chat_id){
+        return (DocumentSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public DocumentSender setMessageId(Object message_id){
+        return (DocumentSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public DocumentSender setDisableNotification(boolean value){
+        return (DocumentSender) super.setDisableNotification(value);
+    }
+
     public DocumentMessage send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);

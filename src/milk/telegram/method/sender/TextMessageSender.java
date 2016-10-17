@@ -29,9 +29,29 @@ public class TextMessageSender extends MessageSender{
         return this;
     }
 
+    public TextMessageSender setParseMode(String parse_mode){
+        this.parse_mode = parse_mode;
+        return this;
+    }
+
     public TextMessageSender setDisableWebPagePreview(boolean value){
         this.disable_web_page_preview = value;
         return this;
+    }
+
+    @Override
+    public TextMessageSender setChatId(Object chat_id){
+        return (TextMessageSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public TextMessageSender setMessageId(Object message_id){
+        return (TextMessageSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public TextMessageSender setDisableNotification(boolean value){
+        return (TextMessageSender) super.setDisableNotification(value);
     }
 
     public TextMessage send(){

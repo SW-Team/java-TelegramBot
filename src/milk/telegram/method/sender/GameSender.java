@@ -22,14 +22,29 @@ public class GameSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public GameSender setChatId(Object chat_id){
+        return (GameSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public GameSender setMessageId(Object message_id){
+        return (GameSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public GameSender setDisableNotification(boolean value){
+        return (GameSender) super.setDisableNotification(value);
+    }
+
     public GameMessage send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);
         object.put("game_short_name", game_short_name);
         object.put("disable_notification", disable_notification);
 
-        if(message_id != -1) object.put("reply_to_message_id", message_id);
         if(reply_markup != null) object.put("reply_markup", reply_markup);
+        if(message_id != -1) object.put("reply_to_message_id", message_id);
 
         return (GameMessage) Message.create(bot.updateResponse("sendGame", object));
     }

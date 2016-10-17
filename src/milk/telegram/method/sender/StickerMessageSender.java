@@ -27,6 +27,21 @@ public class StickerMessageSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public StickerMessageSender setChatId(Object chat_id){
+        return (StickerMessageSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public StickerMessageSender setMessageId(Object message_id){
+        return (StickerMessageSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public StickerMessageSender setDisableNotification(boolean value){
+        return (StickerMessageSender) super.setDisableNotification(value);
+    }
+
     public StickerMessage send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);

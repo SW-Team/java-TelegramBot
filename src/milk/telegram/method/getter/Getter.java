@@ -11,6 +11,4 @@ public abstract class Getter extends SendInstance{
         super(bot);
     }
 
-    public abstract Object send();
-
 }

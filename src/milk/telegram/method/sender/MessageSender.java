@@ -87,6 +87,4 @@ public abstract class MessageSender extends SendInstance{
         return this;
     }
 
-    public abstract Object send();
-
 }

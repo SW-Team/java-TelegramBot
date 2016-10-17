@@ -212,58 +212,6 @@ public class TelegramBot extends Thread{
     }
     /** setMethod **/
 
-    /** sendMethod */
-    public GameMessage sendGame(Object game, Object chat){
-        return sendGame(game, chat, null);
-    }
-
-    public GameMessage sendGame(Object game, Object chat, Object reply_message){
-        return sendGame(game, chat, reply_message, null);
-    }
-
-    public GameMessage sendGame(Object game, Object chat, Object reply_message, InlineKeyboardMarkup reply_markup){
-        return sendGame(game, chat, reply_message, reply_markup, null);
-    }
-
-    public GameMessage sendGame(Object game, Object chat, Object reply_message, InlineKeyboardMarkup reply_markup, Boolean disable_noti){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        if(game instanceof CallbackQuery){
-            game = ((CallbackQuery) reply_message).getGameShortName();
-        }else if(game != null && !(game instanceof String)){
-            return null;
-        }
-
-        if(reply_message instanceof Message){
-            reply_message = ((Message) reply_message).getId();
-        }else if(reply_message != null && !(reply_message instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("game_short_name", game);
-        if(disable_noti != null) object.put("disable_notification", disable_noti);
-        if(reply_message != null) object.put("reply_to_message_id", reply_message);
-        if(reply_markup != null) object.put("reply_markup", reply_markup.getJsonData());
-
-        return (GameMessage) Message.create(updateResponse("sendGame", object));
-    }
-
-    public void sendChatAction(String action, Object chat){
-        if((chat = fixChat(chat)) == null){
-            return;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("action", action);
-        this.updateResponse("sendChatAction", object);
-    }
-    /** sendMethod */
-
     /** getMethod */
     public ChatMember getChatMember(Object chat, Object user){
         if((chat = fixChat(chat)) == null){
@@ -411,30 +359,6 @@ public class TelegramBot extends Thread{
     /** editMethod **/
 
     /** anotherMethod */
-    public Message forwardMessage(Object message, Object chat, Object chat_from){
-        return forwardMessage(message, chat, chat_from, null);
-    }
-
-    public Message forwardMessage(Object message, Object chat, Object chat_from, Boolean disable_noti){
-        if(message instanceof Message){
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Number)){
-            return null;
-        }
-
-        if((chat = fixChat(chat)) == null || (chat_from = fixChat(chat_from)) == null){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("message_id", message);
-        object.put("from_chat_id", chat_from);
-        if(disable_noti != null) object.put("disable_notification", disable_noti);
-
-        return Message.create(updateResponse("forwardMessage", object));
-    }
-
     public boolean kickChatMember(Object user, Object chat){
         if((chat = fixChat(chat)) == null){
             return false;

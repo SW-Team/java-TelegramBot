@@ -32,6 +32,21 @@ public class ForwardMessageSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public ForwardMessageSender setChatId(Object chat_id){
+        return (ForwardMessageSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public ForwardMessageSender setMessageId(Object message_id){
+        return (ForwardMessageSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public ForwardMessageSender setDisableNotification(boolean value){
+        return (ForwardMessageSender) super.setDisableNotification(value);
+    }
+
     public Message send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);

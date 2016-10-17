@@ -40,6 +40,21 @@ public class LocationSender extends MessageSender{
         return this;
     }
 
+    @Override
+    public LocationSender setChatId(Object chat_id){
+        return (LocationSender) super.setChatId(chat_id);
+    }
+
+    @Override
+    public LocationSender setMessageId(Object message_id){
+        return (LocationSender) super.setMessageId(message_id);
+    }
+
+    @Override
+    public LocationSender setDisableNotification(boolean value){
+        return (LocationSender) super.setDisableNotification(value);
+    }
+
     public LocationMessage send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);
