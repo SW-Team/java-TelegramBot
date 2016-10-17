@@ -1,4 +1,4 @@
-package milk.telegram.send.message;
+package milk.telegram.method.message;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.message.Message;

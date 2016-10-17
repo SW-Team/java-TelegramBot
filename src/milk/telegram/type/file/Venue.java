@@ -27,4 +27,20 @@ public class Venue{
         return new Venue(object);
     }
 
+    public Location getLocation(){
+        return location;
+    }
+
+    public String getTitle(){
+        return title;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public String getFoursquareId(){
+        return foursquare_id;
+    }
+
 }

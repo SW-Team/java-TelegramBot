@@ -1,6 +1,7 @@
-package milk.telegram.send.message;
+package milk.telegram.method.message;
 
 import milk.telegram.bot.TelegramBot;
+import milk.telegram.type.file.Contact;
 import milk.telegram.type.message.ContactMessage;
 import milk.telegram.type.message.Message;
 import org.json.JSONObject;
@@ -16,7 +17,28 @@ public class ContactSender extends MessageSender{
         super(bot);
     }
 
-    @Override
+    public ContactSender setContact(Contact contact){
+        this.last_name = contact.getLastName();
+        this.first_name = contact.getFirstName();
+        this.phone_number = contact.getPhoneNumber();
+        return this;
+    }
+
+    public ContactSender setPhoneNumber(String phone_number){
+        this.phone_number = phone_number;
+        return this;
+    }
+
+    public ContactSender setLastName(String last_name){
+        this.last_name = last_name;
+        return this;
+    }
+
+    public ContactSender setFirstName(String first_name){
+        this.first_name = first_name;
+        return this;
+    }
+
     public ContactMessage send(){
         JSONObject object = new JSONObject();
         object.put("chat_id", chat_id);

@@ -17,11 +17,9 @@ bot.start();
 ```
 ### Send Message
 ```java
-(TextMessage)
 TextMessage message = new TextMessageSender(bot).setText("Hello, World!").setChatId("@username").send();
 ```
 ### Get Data
 ```java
-(Chat)
 Chat chat = new ChatGetter(bot).getChatId("@username").send();
 ```

@@ -410,45 +410,6 @@ public class TelegramBot extends Thread{
     }
     /** editMethod **/
 
-    /** answerMethod **/
-    public boolean answerCallbackQuery(Object query_id, String text){
-        return answerCallbackQuery(query_id, text, null);
-    }
-
-    public boolean answerCallbackQuery(Object query_id, String text, Boolean show_alert){
-        if(query_id instanceof CallbackQuery){
-            query_id = ((CallbackQuery) query_id).getId();
-        }else if(!(query_id instanceof String)){
-            return false;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("text", text);
-        object.put("callback_query_id", query_id);
-        if(show_alert != null) object.put("show_alert", show_alert);
-
-        JSONObject ob = updateResponse("answerCallbackQuery", object);
-        return ob != null && ob.optBoolean("result");
-    }
-
-    /** ??? 이뭐병 **/
-    /*public boolean answerCallbackQuery(Object query_id, String url, Boolean show_alert){
-        if(query_id instanceof CallbackQuery){
-            query_id = ((CallbackQuery) query_id).getId();
-        }else if(!(query_id instanceof String)){
-            return false;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("url", url);
-        object.put("callback_query_id", query_id);
-        if(show_alert != null) object.put("show_alert", show_alert);
-
-        JSONObject ob = updateResponse("answerCallbackQuery", object);
-        return ob != null && ob.optBoolean("result");
-    }*/
-    /** answerMethod **/
-
     /** anotherMethod */
     public Message forwardMessage(Object message, Object chat, Object chat_from){
         return forwardMessage(message, chat, chat_from, null);

@@ -1,12 +1,12 @@
-package milk.telegram.send.getter;
+package milk.telegram.method;
 
 import milk.telegram.bot.TelegramBot;
 
-public abstract class Getter{
+public class SendInstance{
 
     protected TelegramBot bot;
 
-    public Getter(TelegramBot bot){
+    public SendInstance(TelegramBot bot){
         this.setBot(bot);
     }
 
@@ -14,11 +14,9 @@ public abstract class Getter{
         return bot;
     }
 
-    public Getter setBot(TelegramBot bot){
+    public SendInstance setBot(TelegramBot bot){
         this.bot = bot;
         return this;
     }
-
-    public abstract Object send();
 
 }

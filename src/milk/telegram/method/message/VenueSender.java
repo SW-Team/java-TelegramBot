@@ -1,6 +1,8 @@
-package milk.telegram.send.message;
+package milk.telegram.method.message;
 
 import milk.telegram.bot.TelegramBot;
+import milk.telegram.type.file.Location;
+import milk.telegram.type.file.Venue;
 import milk.telegram.type.message.Message;
 import milk.telegram.type.message.VenueMessage;
 
@@ -39,24 +41,40 @@ public class VenueSender extends MessageSender{
         return foursquare_id;
     }
 
-    public void setTitle(String title){
+    public VenueSender setTitle(String title){
         this.title = title;
+        return this;
     }
 
-    public void setAddress(String address){
+    public VenueSender setAddress(String address){
         this.address = address;
+        return this;
     }
 
-    public void setLatitude(double latitude){
+    public VenueSender setLatitude(double latitude){
         this.latitude = latitude;
+        return this;
     }
 
-    public void setLongitude(double longitude){
+    public VenueSender setLongitude(double longitude){
         this.longitude = longitude;
+        return this;
     }
 
-    public void setFoursquareId(String foursquare_id){
+    public VenueSender setFoursquareId(String foursquare_id){
         this.foursquare_id = foursquare_id;
+        return this;
+    }
+
+    public VenueSender setVenue(Venue venue){
+        Location location = venue.getLocation();
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
+
+        this.title = venue.getTitle();
+        this.address = venue.getAddress();
+        this.foursquare_id = venue.getFoursquareId();
+        return this;
     }
 
     public VenueMessage send(){
