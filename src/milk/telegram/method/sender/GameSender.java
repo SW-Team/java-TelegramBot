@@ -1,4 +1,4 @@
-package milk.telegram.method.message;
+package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.message.GameMessage;
@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class GameSender extends MessageSender{
 
-    private String game_short_name;
+    protected String game_short_name;
 
     public GameSender(TelegramBot bot){
         super(bot);

@@ -1,4 +1,4 @@
-package milk.telegram.method.message;
+package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.file.Location;
@@ -10,12 +10,12 @@ import org.json.JSONObject;
 
 public class VenueSender extends MessageSender{
 
-    private double latitude;
-    private double longitude;
+    protected double latitude;
+    protected double longitude;
 
-    private String title;
-    private String address;
-    private String foursquare_id = null;
+    protected String title;
+    protected String address;
+    protected String foursquare_id = null;
 
     public VenueSender(TelegramBot bot){
         super(bot);
@@ -86,10 +86,10 @@ public class VenueSender extends MessageSender{
         object.put("longitude", longitude);
         object.put("disable_notification", disable_notification);
 
-        if(message_id != -1) object.put("reply_to_message_id", message_id);
         if(reply_markup != null) object.put("reply_markup", reply_markup);
+        if(message_id != -1) object.put("reply_to_message_id", message_id);
 
-        return (VenueMessage) Message.create(bot.updateResponse("sendMessage", object));
+        return (VenueMessage) Message.create(bot.updateResponse("sendVenue", object));
     }
 
 }

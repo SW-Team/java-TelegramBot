@@ -1,4 +1,4 @@
-package milk.telegram.method.message;
+package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.file.Contact;
@@ -8,10 +8,10 @@ import org.json.JSONObject;
 
 public class ContactSender extends MessageSender{
 
-    private String phone_number;
+    protected String phone_number;
 
-    private String last_name;
-    private String first_name;
+    protected String last_name;
+    protected String first_name;
 
     public ContactSender(TelegramBot bot){
         super(bot);

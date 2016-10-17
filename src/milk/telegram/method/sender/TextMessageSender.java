@@ -1,4 +1,4 @@
-package milk.telegram.method.message;
+package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.message.Message;
@@ -7,8 +7,8 @@ import org.json.JSONObject;
 
 public class TextMessageSender extends MessageSender{
 
-    private String text;
-    private String parse_mode = null;
+    protected String text;
+    protected String parse_mode = null;
 
     private boolean disable_web_page_preview = false;
 

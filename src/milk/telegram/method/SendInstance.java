@@ -2,7 +2,7 @@ package milk.telegram.method;
 
 import milk.telegram.bot.TelegramBot;
 
-public class SendInstance{
+public abstract class SendInstance{
 
     protected TelegramBot bot;
 
@@ -18,5 +18,7 @@ public class SendInstance{
         this.bot = bot;
         return this;
     }
+
+    public abstract Object send();
 
 }

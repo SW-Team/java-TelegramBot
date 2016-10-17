@@ -9,6 +9,4 @@ public abstract class Replier extends SendInstance{
         super(bot);
     }
 
-    public abstract Object send();
-
 }

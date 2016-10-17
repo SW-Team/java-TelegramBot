@@ -1,4 +1,4 @@
-package milk.telegram.method.message;
+package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.Identifier;

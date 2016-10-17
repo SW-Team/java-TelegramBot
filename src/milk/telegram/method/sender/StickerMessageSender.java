@@ -1,4 +1,4 @@
-package milk.telegram.method.message;
+package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.file.photo.Sticker;
@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 public class StickerMessageSender extends MessageSender{
 
-    private String sticker;
+    protected String sticker;
 
     public StickerMessageSender(TelegramBot bot){
         super(bot);
