@@ -46,7 +46,6 @@ public class ChatActionSender extends SendInstance{
         JSONObject object = new JSONObject();
         object.put("action", action);
         object.put("chat_id", chat_id);
-
         bot.updateResponse("sendChatAction", object);
         return null;
     }
