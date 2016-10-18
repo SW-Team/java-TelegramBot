@@ -22,7 +22,7 @@ public abstract class SendInstance{
     public abstract Object send();
 
     public void asyncSend(){
-        new Thread(this::send);
+        new Thread(this::send).start();
     }
 
 }
