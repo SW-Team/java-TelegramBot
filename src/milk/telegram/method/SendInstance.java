@@ -14,9 +14,8 @@ public abstract class SendInstance{
         return bot;
     }
 
-    public SendInstance setBot(TelegramBot bot){
+    public void setBot(TelegramBot bot){
         this.bot = bot;
-        return this;
     }
 
     public abstract Object send();

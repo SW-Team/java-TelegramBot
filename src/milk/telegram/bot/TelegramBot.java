@@ -78,13 +78,6 @@ public class TelegramBot extends Thread{
         return null;
     }
 
-    public static Object fixChat(Object chat){
-        if(chat instanceof Identifier){
-            chat = chat instanceof Channel ? "@" + ((Usernamed) chat).getUsername() : ((Identifier) chat).getId();
-        }
-        return chat instanceof String || chat instanceof Number ? chat : null;
-    }
-
     public void run(){
         while(true){
             if(this.isInterrupted() || this.token.length() < 45 || this.handler == null) break;
@@ -159,116 +152,9 @@ public class TelegramBot extends Thread{
     public void setHandler(Handler handler){
         this.handler = handler;
     }
-
-    public GameMessage setGameScore(long score, Object user, Object chat, Object message){
-        if(message instanceof Message){
-            chat = ((Message) message).getChat().getId();
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Number) && !(message instanceof String)){
-            return null;
-        }
-
-        if(user instanceof User){
-            user = ((User) user).getId();
-        }else if(user != null && !(user instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("score", score);
-        object.put("user_id", user);
-        object.put("chat_id", chat);
-        object.put("message_id", message);
-
-        return (GameMessage) Message.create(updateResponse("setGameScore", object));
-    }
-
-    public GameMessage setGameScore(long score, Object user, Object message){
-        Object chat = null;
-        if(message instanceof Message){
-            chat = ((Message) message).getChat().getId();
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Number) && !(message instanceof String)){
-            return null;
-        }
-
-        if(user instanceof User){
-            user = ((User) user).getId();
-        }else if(user != null && !(user instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("score", score);
-        object.put("user_id", user);
-        if(chat != null){
-            object.put("chat_id", chat);
-            object.put("message_id", message);
-        }else{
-            object.put("inline_message_id", message);
-        }
-
-        return (GameMessage) Message.create(updateResponse("setGameScore", object));
-    }
     /** setMethod **/
 
     /** getMethod */
-    public ChatMember getChatMember(Object chat, Object user){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        if(user instanceof User){
-            user = ((User) user).getId();
-        }else if(!(user instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("user_id", user);
-        return ChatMember.create(updateResponse("getChatMember", object));
-    }
-
-    public Integer getChatMembersCount(Object chat){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        JSONObject ob = updateResponse("getChatMembersCount", object);
-        return (ob == null || !ob.has("result")) ? null : ob.optInt("result");
-    }
-
-    public ArrayList<ChatMember> getChatAdministrators(Object chat){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-
-        JSONObject ob = updateResponse("getChatAdministrators", object);
-        if(ob != null && ob.has("result")){
-            JSONArray ar = ob.getJSONArray("result");
-            ArrayList<ChatMember> array = new ArrayList<>();
-            for(Object obj : ar) array.add(ChatMember.create((JSONObject) obj));
-            return array;
-        }
-        return null;
-    }
-
-    public GameHighScore getGameHighScores(Object chat, Object user, Object message){
-        //TODO: 개 귀찮아
-        return null;
-    }
-
-    public GameHighScore getGameHighScores(Object user, Object inline){
-        //TODO: 개 귀찮아
-        return null;
-    }
-
     public UserProfilePhotos getUserProfilePhotos(Object user){
         return getUserProfilePhotos(user, null);
     }
@@ -292,74 +178,8 @@ public class TelegramBot extends Thread{
     }
     /** getMethod **/
 
-    /** editMethod **/
-    public TextMessage editMessageText(String text, Object chat, Object message){
-        return editMessageText(text, chat, message, null);
-    }
-
-    public TextMessage editMessageText(String text, Object chat, Object message, String parse_mode){
-        return editMessageText(text, chat, message, parse_mode, null);
-    }
-
-    public TextMessage editMessageText(String text, Object chat, Object message, String parse_mode, Boolean disable_web){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        if(message instanceof Message){
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("text", text);
-        object.put("chat_id", chat);
-        object.put("message_id", message);
-        if(parse_mode != null) object.put("parse_mode", parse_mode);
-        if(disable_web != null) object.put("disable_web_page_preview", disable_web);
-
-        return (TextMessage) Message.create(updateResponse("editMessageText", object));
-    }
-
-    public TextMessage editMessageText(String text, String inline, String parse_mode, Boolean disable_web){
-        JSONObject object = new JSONObject();
-        object.put("text", text);
-        object.put("inline_message_id", inline);
-        if(parse_mode != null) object.put("parse_mode", parse_mode);
-        if(disable_web != null) object.put("disable_web_page_preview", disable_web);
-
-        return (TextMessage) Message.create(updateResponse("editMessageText", object));
-    }
-
-    public TextMessage editMessageCaption(String caption, Object chat, Object message){
-        if((chat = fixChat(chat)) == null){
-            return null;
-        }
-
-        if(message instanceof Message){
-            message = ((Message) message).getId();
-        }else if(message != null && !(message instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("caption", caption);
-        object.put("chat_id", chat);
-        object.put("message_id", message);
-        return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
-    }
-
-    public TextMessage editMessageCaption(String caption, String inline){
-        JSONObject object = new JSONObject();
-        object.put("caption", caption);
-        object.put("inline_message_id", inline);
-        return (TextMessage) Message.create(updateResponse("editMessageCaption", object));
-    }
-    /** editMethod **/
-
-    /** anotherMethod */
-    public boolean kickChatMember(Object user, Object chat){
+    //TODO: 추후에 하겠습니다
+    /*public boolean kickChatMember(Object user, Object chat){
         if((chat = fixChat(chat)) == null){
             return false;
         }
@@ -404,6 +224,6 @@ public class TelegramBot extends Thread{
         object.put("chat_id", chat);
         JSONObject ob = updateResponse("leaveChat", object);
         return ob != null && ob.optBoolean("result");
-    }
+    }*/
 
 }

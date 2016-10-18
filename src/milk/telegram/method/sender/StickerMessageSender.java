@@ -6,7 +6,7 @@ import milk.telegram.type.message.Message;
 import milk.telegram.type.message.StickerMessage;
 import org.json.JSONObject;
 
-public class StickerMessageSender extends MessageSender{
+public class StickerMessageSender extends Sender{
 
     protected String sticker;
 

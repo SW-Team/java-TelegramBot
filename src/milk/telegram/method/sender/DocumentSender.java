@@ -7,7 +7,7 @@ import milk.telegram.type.message.DocumentMessage;
 
 import org.json.JSONObject;
 
-public class DocumentSender extends MessageSender{
+public class DocumentSender extends Sender{
 
     protected String document;
     protected String caption = null;

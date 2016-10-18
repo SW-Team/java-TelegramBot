@@ -7,7 +7,7 @@ import milk.telegram.type.message.Message;
 
 import org.json.JSONObject;
 
-public class LocationSender extends MessageSender{
+public class LocationSender extends Sender{
 
     protected double latitude;
     protected double longitude;

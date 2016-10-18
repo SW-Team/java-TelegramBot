@@ -7,7 +7,7 @@ import milk.telegram.type.chat.Channel;
 import milk.telegram.type.message.Message;
 import org.json.JSONObject;
 
-public class ForwardMessageSender extends MessageSender{
+public class ForwardMessageSender extends Sender{
 
     protected String from_chat_id;
 

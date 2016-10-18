@@ -6,7 +6,7 @@ import milk.telegram.type.message.ContactMessage;
 import milk.telegram.type.message.Message;
 import org.json.JSONObject;
 
-public class ContactSender extends MessageSender{
+public class ContactSender extends Sender{
 
     protected String phone_number;
 

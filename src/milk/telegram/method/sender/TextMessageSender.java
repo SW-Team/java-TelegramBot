@@ -5,7 +5,7 @@ import milk.telegram.type.message.Message;
 import milk.telegram.type.message.TextMessage;
 import org.json.JSONObject;
 
-public class TextMessageSender extends MessageSender{
+public class TextMessageSender extends Sender{
 
     protected String text;
     protected String parse_mode = null;
@@ -18,6 +18,10 @@ public class TextMessageSender extends MessageSender{
 
     public String getText(){
         return text;
+    }
+
+    public String getParseMode(){
+        return parse_mode;
     }
 
     public boolean isDisableWebPagePreview(){

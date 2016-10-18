@@ -5,7 +5,7 @@ import milk.telegram.type.message.GameMessage;
 import milk.telegram.type.message.Message;
 import org.json.JSONObject;
 
-public class GameSender extends MessageSender{
+public class GameSender extends Sender{
 
     protected String game_short_name;
 

@@ -1,4 +1,4 @@
-# java-TelegramAPI
+# java-TelegramBot
   
 Author: **[SW-Team](https://github.com/SW-Team)**
   
