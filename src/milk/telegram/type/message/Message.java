@@ -22,17 +22,17 @@ public class Message implements Identifier<Integer>{
     private final JSONObject object;
 
     protected Message(JSONObject object){
-        this.message_id = object.getInt("message_id");
+        this.object = object;
+
         this.date = object.getInt("date");
-        this.from = User.create(object.optJSONObject("from"));
+        this.message_id = object.getInt("message_id");
         this.chat = Chat.create(object.getJSONObject("chat"));
 
+        this.from = User.create(object.optJSONObject("from"));
         this.reply_message = Message.create(object.optJSONObject("reply_to_message"));
 
         this.forward_from = User.create(object.optJSONObject("forward_from"));
         this.forward_from_chat = Chat.create(object.optJSONObject("forward_from_chat"));
-
-        this.object = object;
     }
 
     public static Message create(JSONObject object){
@@ -69,10 +69,6 @@ public class Message implements Identifier<Integer>{
             return new VoiceMessage(object);
         }
         return new Message(object);
-    }
-
-    public JSONObject getObject(){
-        return object;
     }
 
     public Integer getId(){
@@ -113,6 +109,10 @@ public class Message implements Identifier<Integer>{
 
     public String getName(){
         return "메시지";
+    }
+
+    public JSONObject toJSONObject(){
+        return object;
     }
 
     @Override

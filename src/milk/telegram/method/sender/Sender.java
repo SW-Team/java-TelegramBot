@@ -79,7 +79,7 @@ public abstract class Sender extends SendInstance{
 
     public Sender setReplyMarkup(Object reply_markup){
         if(reply_markup instanceof ReplyMarkup){
-            this.reply_markup = ((ReplyMarkup) reply_markup).getJsonData();
+            this.reply_markup = ((ReplyMarkup) reply_markup).toJSONObject();
         }else if(reply_markup instanceof JSONObject){
             this.reply_markup = (JSONObject) reply_markup;
         }

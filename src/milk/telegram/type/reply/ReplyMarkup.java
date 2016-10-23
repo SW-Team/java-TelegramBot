@@ -1,7 +1,9 @@
 package milk.telegram.type.reply;
 
-import milk.telegram.type.JsonData;
+import org.json.JSONObject;
 
-public interface ReplyMarkup extends JsonData{
+public interface ReplyMarkup{
+
+    JSONObject toJSONObject();
 
 }

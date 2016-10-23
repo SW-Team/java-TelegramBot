@@ -1,13 +1,14 @@
 package milk.telegram.type.reply;
 
+import milk.telegram.type.inline.InlineKeyboardButtonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class InlineKeyboardMarkup implements ReplyMarkup{
 
-    private JSONArray inline_keyboard; //Array of Array of InlineKeyboardButton(JSONObject, Not API's Class)
+    private InlineKeyboardButtonArray inline_keyboard;
 
-    public InlineKeyboardMarkup(JSONArray keyboard){
+    public InlineKeyboardMarkup(InlineKeyboardButtonArray keyboard){
         this.inline_keyboard = keyboard;
     }
 
@@ -15,11 +16,11 @@ public class InlineKeyboardMarkup implements ReplyMarkup{
         return inline_keyboard;
     }
 
-    public void setInlineKeyboard(JSONArray inline_keyboard){
+    public void setInlineKeyboard(InlineKeyboardButtonArray inline_keyboard){
         this.inline_keyboard = inline_keyboard;
     }
 
-    public JSONObject getJsonData(){
+    public JSONObject toJSONObject(){
         JSONObject object = new JSONObject();
         object.put("inline_keyboard", this.inline_keyboard);
         return object;

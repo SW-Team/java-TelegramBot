@@ -22,12 +22,11 @@ public class ReplyKeyboardHide implements ReplyMarkup{
         this.selective = selective;
     }
 
-    @Override
-    public JSONObject getJsonData(){
+    public JSONObject toJSONObject(){
         JSONObject object = new JSONObject();
         object.put("force_reply", true);
         if(this.selective != null) object.put("selective", this.selective);
-        return null;
+        return object;
     }
 
 }

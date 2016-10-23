@@ -8,7 +8,7 @@ public class InlineReplier extends Replier{
         super(bot);
     }
 
-    public Object send(){
+    public Boolean send(){
         return null;
     }
 

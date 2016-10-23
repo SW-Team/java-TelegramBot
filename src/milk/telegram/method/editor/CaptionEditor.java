@@ -6,7 +6,6 @@ import milk.telegram.type.Usernamed;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.message.Message;
 import milk.telegram.type.reply.ReplyMarkup;
-import milk.telegram.type.user.User;
 import org.json.JSONObject;
 
 public class CaptionEditor extends Editor{
@@ -69,7 +68,7 @@ public class CaptionEditor extends Editor{
 
     public CaptionEditor setReplyMarkup(Object reply_markup){
         if(reply_markup instanceof ReplyMarkup){
-            this.reply_markup = ((ReplyMarkup) reply_markup).getJsonData();
+            this.reply_markup = ((ReplyMarkup) reply_markup).toJSONObject();
         }else if(reply_markup instanceof JSONObject){
             this.reply_markup = (JSONObject) reply_markup;
         }
