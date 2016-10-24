@@ -8,6 +8,7 @@ import milk.telegram.type.message.Message;
 import milk.telegram.type.message.TextMessage;
 import milk.telegram.type.reply.InlineKeyboardMarkup;
 
+import milk.telegram.type.reply.ReplyMarkup;
 import org.json.JSONObject;
 
 public class TextMessageEditor extends Editor{
@@ -79,12 +80,8 @@ public class TextMessageEditor extends Editor{
         return this;
     }
 
-    public TextMessageEditor setReplyMarkup(Object reply_markup){
-        if(reply_markup instanceof InlineKeyboardMarkup){
-            this.reply_markup = ((InlineKeyboardMarkup) reply_markup).toJSONObject();
-        }else if(reply_markup instanceof JSONObject){
-            this.reply_markup = (JSONObject) reply_markup;
-        }
+    public TextMessageEditor setReplyMarkup(ReplyMarkup reply_markup){
+        this.reply_markup = reply_markup;
         return this;
     }
 

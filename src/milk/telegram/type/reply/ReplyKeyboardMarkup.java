@@ -1,58 +1,53 @@
 package milk.telegram.type.reply;
 
-import milk.telegram.type.inline.InlineKeyboardButtonArray;
+import milk.telegram.type.callback.KeyboardButton;
+
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-public class ReplyKeyboardMarkup implements ReplyMarkup{
+public class ReplyKeyboardMarkup extends ReplyMarkup{
 
-    private JSONArray keyboard;
-
-    private Boolean selective;
-    private Boolean resize_keyboard;
-    private Boolean one_time_keyboard;
-
-    public ReplyKeyboardMarkup(InlineKeyboardButtonArray keyboard){
-        this.keyboard = keyboard;
-    }
-
-    public JSONArray getKeyboard(){
-        return keyboard;
+    public ReplyKeyboardMarkup(){
+        this.put("keyboard", new JSONArray());
     }
 
     public Boolean getSelective(){
-        return selective;
+        return this.optBoolean("selective");
     }
 
     public Boolean getResizeKeyboard(){
-        return resize_keyboard;
+        return this.optBoolean("resize_keyboard");
     }
 
     public Boolean getOneTimeKeyboard(){
-        return one_time_keyboard;
+        return this.optBoolean("one_time_keyboard");
     }
 
-    public void setSelective(Boolean selective){
-        this.selective = selective;
+    public KeyboardButton getButton(int column, int row){
+        return null;
     }
 
-    public void setKeyboard(InlineKeyboardButtonArray keyboard){
-        this.keyboard = keyboard;
+    public void setSelective(boolean selective){
+        this.put("selective", selective);
     }
 
-    public void setOneTimeKeyboard(Boolean selective){
-        this.one_time_keyboard = selective;
+    public void setResizeKeyboard(boolean resize_keyboard){
+        this.put("resize_keyboard", resize_keyboard);
     }
 
-    public void setResizeKeyboard(Boolean resize_keyboard){
-        this.resize_keyboard = resize_keyboard;
+    public void setOneTimeKeyboard(boolean one_time_keyboard){
+        this.put("one_time_keyboard", one_time_keyboard);
     }
 
-    public JSONObject toJSONObject(){
-        JSONObject object = new JSONObject();
-        object.put("force_reply", true);
-        if(this.selective != null) object.put("selective", this.selective);
-        return object;
+    public void setButton(int column, int row, KeyboardButton button){
+        if(this.length() < column){
+            column = this.length();
+        }
+        JSONArray array = this.getJSONArray("keyboard").optJSONArray(column);
+        if(array == null) this.getJSONArray("keyboard").put(column, array = new JSONArray());
+        if(array.length() < row){
+            row = array.length();
+        }
+        array.put(row, button);
     }
 
 }
