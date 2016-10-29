@@ -11,6 +11,8 @@ public class CallbackQuery implements Identifier<String>{
     private final User from;
     private final Message message;
 
+    private final String chat_instance;
+
     private final String data;
     private final String inline_message_id;
 
@@ -20,6 +22,8 @@ public class CallbackQuery implements Identifier<String>{
         this.id = object.getString("id");
         this.from = User.create(object.getJSONObject("from"));
         this.message = Message.create(object.optJSONObject("message"));
+
+        this.chat_instance = object.optString("chat_instance", null);
 
         this.data = object.optString("data", null);
         this.inline_message_id = object.optString("inline_message_id");
@@ -56,5 +60,9 @@ public class CallbackQuery implements Identifier<String>{
 
     public String getGameShortName(){
         return game_short_name;
+    }
+
+    public String getChatInstance(){
+        return chat_instance;
     }
 }
