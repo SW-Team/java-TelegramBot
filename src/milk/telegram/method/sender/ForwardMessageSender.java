@@ -5,18 +5,15 @@ import milk.telegram.type.Identifier;
 import milk.telegram.type.Usernamed;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.message.Message;
-import org.json.JSONObject;
 
 public class ForwardMessageSender extends Sender{
-
-    protected String from_chat_id;
 
     public ForwardMessageSender(TelegramBot bot){
         super(bot);
     }
 
     public String getFromChatId(){
-        return from_chat_id;
+        return this.optString("from_chat_id");
     }
 
     public ForwardMessageSender setFromChatId(Object chat_id){
@@ -25,35 +22,34 @@ public class ForwardMessageSender extends Sender{
         }
 
         if(chat_id instanceof String){
-            this.from_chat_id = (String) chat_id;
+            this.put("from_chat_id",  chat_id);
         }else if(chat_id instanceof Number){
-            this.from_chat_id = ((Number) chat_id).longValue() + "";
+            this.put("from_chat_id", ((Number) chat_id).longValue() + "");
         }
         return this;
     }
 
-    @Override
     public ForwardMessageSender setChatId(Object chat_id){
         return (ForwardMessageSender) super.setChatId(chat_id);
     }
 
-    @Override
     public ForwardMessageSender setMessageId(Object message_id){
-        return (ForwardMessageSender) super.setMessageId(message_id);
+        if(message_id instanceof Message){
+            this.put("message_id", ((Message) message_id).getId());
+            this.put("from_chat_id", ((Message) message_id).getChat().getId() + "");
+        }else if(message_id instanceof Number){
+            this.put("message_id", ((Number) message_id).longValue());
+        }
+        return this;
     }
 
-    @Override
+    //Optional
     public ForwardMessageSender setDisableNotification(boolean value){
         return (ForwardMessageSender) super.setDisableNotification(value);
     }
 
     public Message send(){
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat_id);
-        object.put("message_id", message_id);
-        object.put("from_chat_id", from_chat_id);
-        object.put("disable_notification", disable_notification);
-        return Message.create(bot.updateResponse("forwardMessage", object));
+        return Message.create(bot.updateResponse("forwardMessage", this));
     }
 
 }

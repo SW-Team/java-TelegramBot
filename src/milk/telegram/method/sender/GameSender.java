@@ -1,52 +1,48 @@
 package milk.telegram.method.sender;
 
 import milk.telegram.bot.TelegramBot;
-import milk.telegram.type.message.GameMessage;
+import milk.telegram.type.game.Game;
 import milk.telegram.type.message.Message;
-import org.json.JSONObject;
+import milk.telegram.type.message.GameMessage;
+
+import milk.telegram.type.reply.ReplyMarkup;
 
 public class GameSender extends Sender{
-
-    protected String game_short_name;
 
     public GameSender(TelegramBot bot){
         super(bot);
     }
 
     public String getGame(){
-        return game_short_name;
+        return this.optString("game_short_name");
     }
 
     public GameSender setGame(String game_short_name){
-        this.game_short_name = game_short_name;
+        this.put("game_short_name", game_short_name);
         return this;
     }
 
-    @Override
     public GameSender setChatId(Object chat_id){
         return (GameSender) super.setChatId(chat_id);
     }
 
-    @Override
+    //Optional
     public GameSender setMessageId(Object message_id){
         return (GameSender) super.setMessageId(message_id);
     }
 
-    @Override
+    //Optional
+    public GameSender setReplyMarkup(ReplyMarkup markup){
+        return (GameSender) super.setReplyMarkup(markup);
+    }
+
+    //Optional
     public GameSender setDisableNotification(boolean value){
         return (GameSender) super.setDisableNotification(value);
     }
 
     public GameMessage send(){
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat_id);
-        object.put("game_short_name", game_short_name);
-        object.put("disable_notification", disable_notification);
-
-        if(reply_markup != null) object.put("reply_markup", reply_markup);
-        if(message_id != -1) object.put("reply_to_message_id", message_id);
-
-        return (GameMessage) Message.create(bot.updateResponse("sendGame", object));
+        return (GameMessage) Message.create(bot.updateResponse("sendGame", this));
     }
 
 }

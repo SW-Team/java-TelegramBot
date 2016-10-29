@@ -6,105 +6,94 @@ import milk.telegram.type.file.Venue;
 import milk.telegram.type.message.Message;
 import milk.telegram.type.message.VenueMessage;
 
+import milk.telegram.type.reply.ReplyMarkup;
 import org.json.JSONObject;
 
 public class VenueSender extends Sender{
-
-    protected double latitude;
-    protected double longitude;
-
-    protected String title;
-    protected String address;
-    protected String foursquare_id = null;
 
     public VenueSender(TelegramBot bot){
         super(bot);
     }
 
     public String getTitle(){
-        return title;
+        return this.optString("title");
     }
 
     public String getAddress(){
-        return address;
+        return this.optString("address");
     }
 
     public double getLatitude(){
-        return latitude;
+        return this.optDouble("latitude");
     }
 
     public double getLongitude(){
-        return longitude;
+        return this.optDouble("longitude");
     }
 
     public String getFoursquareId(){
-        return foursquare_id;
+        return this.optString("foursquare_id");
     }
 
     public VenueSender setTitle(String title){
-        this.title = title;
+        this.put("title", title);
         return this;
     }
 
     public VenueSender setAddress(String address){
-        this.address = address;
+        this.put("address", address);
         return this;
     }
 
     public VenueSender setLatitude(double latitude){
-        this.latitude = latitude;
+        this.put("latitude", latitude);
         return this;
     }
 
     public VenueSender setLongitude(double longitude){
-        this.longitude = longitude;
+        this.put("longitude", longitude);
         return this;
     }
 
+    //Optional
     public VenueSender setFoursquareId(String foursquare_id){
-        this.foursquare_id = foursquare_id;
+        this.put("foursquare_id", foursquare_id);
         return this;
     }
 
+    //Optional
     public VenueSender setVenue(Venue venue){
         Location location = venue.getLocation();
-        this.latitude = location.getLatitude();
-        this.longitude = location.getLongitude();
+        this.put("latitude", location.getLatitude());
+        this.put("longitude", location.getLongitude());
 
-        this.title = venue.getTitle();
-        this.address = venue.getAddress();
-        this.foursquare_id = venue.getFoursquareId();
+        this.put("title", venue.getTitle());
+        this.put("address", venue.getAddress());
+        this.put("foursquare_id", venue.getFoursquareId());
         return this;
     }
 
-    @Override
     public VenueSender setChatId(Object chat_id){
         return (VenueSender) super.setChatId(chat_id);
     }
 
-    @Override
+    //Optional
     public VenueSender setMessageId(Object message_id){
         return (VenueSender) super.setMessageId(message_id);
     }
 
-    @Override
+    //Optional
+    public VenueSender setReplyMarkup(ReplyMarkup markup){
+        return (VenueSender) super.setReplyMarkup(markup);
+    }
+
+    //Optional
     public VenueSender setDisableNotification(boolean value){
         return (VenueSender) super.setDisableNotification(value);
     }
 
     public VenueMessage send(){
-        JSONObject object = new JSONObject();
-        object.put("title", title);
-        object.put("address", address);
-        object.put("chat_id", chat_id);
-        object.put("latitude", latitude);
-        object.put("longitude", longitude);
-        object.put("disable_notification", disable_notification);
-
-        if(reply_markup != null) object.put("reply_markup", reply_markup);
-        if(message_id != -1) object.put("reply_to_message_id", message_id);
-
-        return (VenueMessage) Message.create(bot.updateResponse("sendVenue", object));
+        return (VenueMessage) Message.create(bot.updateResponse("sendVenue", this));
     }
 
 }
