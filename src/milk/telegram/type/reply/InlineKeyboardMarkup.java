@@ -15,11 +15,12 @@ public class InlineKeyboardMarkup extends ReplyMarkup{
     }
 
     public void setButton(int column, int row, InlineKeyboardButton button){
-        if(this.length() < column){
-            column = this.length();
+        JSONArray keyboard = this.getJSONArray("inline_keyboard");
+        if(keyboard.length() < column){
+            column = keyboard.length();
         }
-        JSONArray array = this.getJSONArray("inline_keyboard").optJSONArray(column);
-        if(array == null) this.getJSONArray("inline_keyboard").put(column, array = new JSONArray());
+        JSONArray array = keyboard.optJSONArray(column);
+        if(array == null) keyboard.put(column, array = new JSONArray());
         if(array.length() < row){
             row = array.length();
         }

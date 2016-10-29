@@ -39,11 +39,12 @@ public class ReplyKeyboardMarkup extends ReplyMarkup{
     }
 
     public void setButton(int column, int row, KeyboardButton button){
-        if(this.length() < column){
-            column = this.length();
+        JSONArray keyboard = this.getJSONArray("inline_keyboard");
+        if(keyboard.length() < column){
+            column = keyboard.length();
         }
-        JSONArray array = this.getJSONArray("keyboard").optJSONArray(column);
-        if(array == null) this.getJSONArray("keyboard").put(column, array = new JSONArray());
+        JSONArray array = keyboard.optJSONArray(column);
+        if(array == null) keyboard.put(column, array = new JSONArray());
         if(array.length() < row){
             row = array.length();
         }
