@@ -56,10 +56,10 @@ public abstract class Sender extends SendInstance{
 
     public Sender setMessageId(Object message_id){
         if(message_id instanceof Message){
-            this.put("message_id", ((Message) message_id).getId());
+            this.put("reply_to_message_id", ((Message) message_id).getId());
             this.put("chat_id", ((Message) message_id).getChat().getId() + "");
         }else if(message_id instanceof Number){
-            this.put("message_id", ((Number) message_id).longValue());
+            this.put("reply_to_message_id", ((Number) message_id).longValue());
         }
         return this;
     }
