@@ -6,12 +6,11 @@ import milk.telegram.type.Usernamed;
 import milk.telegram.type.chat.Channel;
 import milk.telegram.type.message.Message;
 import milk.telegram.type.message.TextMessage;
-import milk.telegram.type.reply.InlineKeyboardMarkup;
 
 import milk.telegram.type.reply.ReplyMarkup;
 import org.json.JSONObject;
 
-public class TextMessageEditor extends Editor{
+public class TextEditor extends Editor{
 
     protected String chat_id;
     protected String inline_id;
@@ -25,7 +24,7 @@ public class TextMessageEditor extends Editor{
 
     private boolean disable_web_page_preview = false;
 
-    public TextMessageEditor(TelegramBot bot){
+    public TextEditor(TelegramBot bot){
         super(bot);
     }
 
@@ -57,7 +56,7 @@ public class TextMessageEditor extends Editor{
         return disable_web_page_preview;
     }
 
-    public TextMessageEditor setChatId(Object chat_id){
+    public TextEditor setChatId(Object chat_id){
         if(chat_id instanceof Identifier){
             chat_id = chat_id instanceof Channel ? "@" + ((Usernamed) chat_id).getUsername() : ((Identifier) chat_id).getId();
         }
@@ -70,7 +69,7 @@ public class TextMessageEditor extends Editor{
         return this;
     }
 
-    public TextMessageEditor setMessageId(Object message_id){
+    public TextEditor setMessageId(Object message_id){
         if(message_id instanceof Message){
             this.message_id = ((Message) message_id).getId();
             this.chat_id = ((Message) message_id).getChat().getId() + "";
@@ -80,27 +79,27 @@ public class TextMessageEditor extends Editor{
         return this;
     }
 
-    public TextMessageEditor setReplyMarkup(ReplyMarkup reply_markup){
+    public TextEditor setReplyMarkup(ReplyMarkup reply_markup){
         this.reply_markup = reply_markup;
         return this;
     }
 
-    public TextMessageEditor setText(String text){
+    public TextEditor setText(String text){
         this.text = text;
         return this;
     }
 
-    public TextMessageEditor setInlineId(String inline_id){
+    public TextEditor setInlineId(String inline_id){
         this.inline_id = inline_id;
         return this;
     }
 
-    public TextMessageEditor setParseMode(String parse_mode){
+    public TextEditor setParseMode(String parse_mode){
         this.parse_mode = parse_mode;
         return this;
     }
 
-    public TextMessageEditor setDisableWebPagePreview(boolean value){
+    public TextEditor setDisableWebPagePreview(boolean value){
         this.disable_web_page_preview = value;
         return this;
     }
