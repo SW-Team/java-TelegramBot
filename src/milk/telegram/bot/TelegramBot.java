@@ -1,19 +1,8 @@
 package milk.telegram.bot;
 
-import milk.telegram.type.callback.CallbackQuery;
 import milk.telegram.handler.Handler;
-import milk.telegram.type.chat.Channel;
-import milk.telegram.type.file.photo.UserProfilePhotos;
-import milk.telegram.type.Usernamed;
-import milk.telegram.type.game.GameHighScore;
-import milk.telegram.type.reply.InlineKeyboardMarkup;
-import milk.telegram.type.message.GameMessage;
-import milk.telegram.type.user.ChatMember;
 import milk.telegram.update.Update;
-import milk.telegram.type.Identifier;
-import milk.telegram.type.message.TextMessage;
 import milk.telegram.type.user.User;
-import milk.telegram.type.message.Message;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -140,7 +129,6 @@ public class TelegramBot extends Thread{
         this.token = token;
     }
 
-    /** setMethod **/
     public void setLimit(int value){
         this.limit = Math.max(1, Math.min(100, value));
     }
@@ -152,78 +140,5 @@ public class TelegramBot extends Thread{
     public void setHandler(Handler handler){
         this.handler = handler;
     }
-    /** setMethod **/
-
-    /** getMethod */
-    public UserProfilePhotos getUserProfilePhotos(Object user){
-        return getUserProfilePhotos(user, null);
-    }
-
-    public UserProfilePhotos getUserProfilePhotos(Object user, Number offset){
-        return getUserProfilePhotos(user, offset, null);
-    }
-
-    public UserProfilePhotos getUserProfilePhotos(Object user, Number offset, Number limit){
-        if(user instanceof User){
-            user = ((User) user).getId();
-        }else if(!(user instanceof Number)){
-            return null;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("limit", limit);
-        object.put("user_id", user);
-        object.put("offset", offset);
-        return UserProfilePhotos.create(updateResponse("getUserProfilePhotos", object));
-    }
-    /** getMethod **/
-
-    //TODO: 추후에 하겠습니다
-    /*public boolean kickChatMember(Object user, Object chat){
-        if((chat = fixChat(chat)) == null){
-            return false;
-        }
-
-        if(user instanceof User){
-            user = ((User) user).getId();
-        }else if(!(user instanceof Number)){
-            return false;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("user_id", user);
-        JSONObject ob = updateResponse("kickChatMember", object);
-        return ob != null && ob.optBoolean("result");
-    }
-
-    public boolean unbanChatMember(Object user, Object chat){
-        if((chat = fixChat(chat)) == null){
-            return false;
-        }
-
-        if(user instanceof User){
-            user = ((User) user).getId();
-        }else if(!(user instanceof Number)){
-            return false;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        object.put("user_id", user);
-        JSONObject ob = updateResponse("unbanChatMember", object);
-        return ob != null && ob.optBoolean("result");
-    }
-
-    public boolean leaveChat(Object chat){
-        if((chat = fixChat(chat)) == null){
-            return false;
-        }
-
-        JSONObject object = new JSONObject();
-        object.put("chat_id", chat);
-        JSONObject ob = updateResponse("leaveChat", object);
-        return ob != null && ob.optBoolean("result");
-    }*/
 
 }
