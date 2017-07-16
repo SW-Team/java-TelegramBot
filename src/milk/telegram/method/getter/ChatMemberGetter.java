@@ -10,27 +10,23 @@ import org.json.JSONObject;
 
 public class ChatMemberGetter extends Getter{
 
-    protected String chat_id;
-
-    protected int user_id;
-
     public ChatMemberGetter(TelegramBot bot){
         super(bot);
     }
 
     public int getUserId(){
-        return user_id;
+        return this.optInt("user_id");
     }
 
     public String getChatId(){
-        return chat_id;
+        return this.optString("chat_id");
     }
 
     public ChatMemberGetter setUserId(Object user_id){
         if(user_id instanceof User){
-            this.user_id = ((User) user_id).getId();
+            this.put("user_id", ((User) user_id).getId());
         }else if(user_id instanceof Number){
-            this.user_id = ((Number) user_id).intValue();
+            this.put("user_id", ((Number) user_id).intValue());
         }
         return this;
     }
@@ -41,17 +37,15 @@ public class ChatMemberGetter extends Getter{
         }
 
         if(chat_id instanceof String){
-            this.chat_id = (String) chat_id;
+            this.put("chat_id", chat_id);
         }else if(chat_id instanceof Number){
-            this.chat_id = ((Number) chat_id).longValue() + "";
+            this.put("chat_id", ((Number) chat_id).longValue() + "");
         }
         return this;
     }
 
-    public ChatMember send(){JSONObject object = new JSONObject();
-        object.put("chat_id", chat_id);
-        object.put("user_id", user_id);
-        return ChatMember.create(bot.updateResponse("getChatMember", object));
+    public ChatMember send(){
+        return ChatMember.create(bot.updateResponse("getChatMember", this));
     }
 
 }

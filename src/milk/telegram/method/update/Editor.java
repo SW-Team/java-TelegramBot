@@ -1,4 +1,4 @@
-package milk.telegram.method.editor;
+package milk.telegram.method.update;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.method.SendInstance;

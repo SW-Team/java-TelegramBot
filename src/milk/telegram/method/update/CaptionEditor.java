@@ -1,4 +1,4 @@
-package milk.telegram.method.editor;
+package milk.telegram.method.update;
 
 import milk.telegram.bot.TelegramBot;
 import milk.telegram.type.Identifier;
@@ -10,37 +10,28 @@ import org.json.JSONObject;
 
 public class CaptionEditor extends Editor{
 
-    protected String chat_id;
-    protected String inline_id;
-
-    protected long message_id = -1;
-
-    protected String caption;
-
-    protected JSONObject reply_markup = null;
-
     public CaptionEditor(TelegramBot bot){
         super(bot);
     }
 
     public String getCaption(){
-        return caption;
+        return this.optString("caption");
     }
 
     public String getChatId(){
-        return chat_id;
+        return this.optString("chat_id");
     }
 
     public long getMessageId(){
-        return message_id;
+        return this.optLong("message_id");
     }
 
     public String getInlineId(){
-        return inline_id;
+        return this.optString("inline_id");
     }
 
     public JSONObject getReplyMarkup(){
-        return reply_markup;
+        return this.optJSONObject("reply_markup");
     }
 
     public CaptionEditor setChatId(Object chat_id){
@@ -49,49 +40,40 @@ public class CaptionEditor extends Editor{
         }
 
         if(chat_id instanceof String){
-            this.chat_id = (String) chat_id;
+            this.put("chat_id", chat_id);
         }else if(chat_id instanceof Number){
-            this.chat_id = ((Number) chat_id).longValue() + "";
+            this.put("chat_id", ((Number) chat_id).longValue() + "");
         }
         return this;
     }
 
     public CaptionEditor setMessageId(Object message_id){
         if(message_id instanceof Message){
-            this.message_id = ((Message) message_id).getId();
-            this.chat_id = ((Message) message_id).getChat().getId() + "";
+            this.put("message_id", ((Message) message_id).getId());
+            this.put("chat_id", ((Message) message_id).getChat().getId() + "");
         }else if(message_id instanceof Number){
-            this.message_id = ((Number) message_id).longValue();
+            this.put("message_id", ((Number) message_id).longValue());
         }
         return this;
     }
 
     public CaptionEditor setReplyMarkup(ReplyMarkup reply_markup){
-        this.reply_markup = reply_markup;
+        this.put("reply_markup", reply_markup);
         return this;
     }
 
     public CaptionEditor setCaption(String caption){
-        this.caption = caption;
+        this.put("caption", caption);
         return this;
     }
 
     public CaptionEditor setInlineId(String inline_id){
-        this.inline_id = inline_id;
+        this.put("inline_id", inline_id);
         return this;
     }
 
     public Message send(){
-        JSONObject object = new JSONObject();
-        object.put("caption", caption);
-        if(inline_id != null){
-            object.put("inline_message_id", inline_id);
-        }else{
-            object.put("chat_id", chat_id);
-            object.put("message_id", message_id);
-        }
-
-        return Message.create(bot.updateResponse("editMessageCaption", object));
+        return Message.create(bot.updateResponse("editMessageCaption", this));
     }
 
 }
