@@ -2,10 +2,10 @@
   
 Author: **[SW-Team](https://github.com/SW-Team)**
   
-###LICENSE
+### LICENSE
 * org.json - JSON-LICENSE
   
-##Usage
+## Usage
 ### Initializing & Start Bot
 ```java
 TelegramBot bot = new TelegramBot("Bot::TOKEN");
